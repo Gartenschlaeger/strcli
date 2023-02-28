@@ -4,43 +4,43 @@ The CLI tool str provides support for common string operations and is easy to us
 
 # Commands
 
-# sub
+## sub
 
 ```sh
 str sub <start_index> <length>
 ```
 
-# field
+## field
 
 ```sh
 str field <field_index> <separator>
 ```
 
-# trim
+## trim
 
 ```sh
 str trim <characters>
 ```
 
-# len
+## len
 
 ```
 str len
 ```
 
-# index
+## index
 
 ```sh
 str index <search_text> <start_index>
 ```
 
-# join
+## join
 
 ```sh
 str join <separator>
 ```
 
-# concat
+## concat
 
 ```sh
 str concat
