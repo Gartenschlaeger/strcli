@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+
 	rootCmd := &cobra.Command{
 		Use:   "str COMMAND [ARG...]",
 		Short: "Runs common string operations.",
@@ -22,4 +23,5 @@ func main() {
 		fmt.Fprint(os.Stderr, err.Error())
 		os.Exit(1)
 	}
+
 }
