@@ -1,16 +1,20 @@
 package commands
 
 import (
-	"os"
+	"fmt"
 	"strings"
 
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
 )
 
+type fieldOptions struct {
+	fieldIndex     int
+	fieldSeparator string
+}
+
 func DefineFieldCommand(rootCmd *cobra.Command) {
-	var fieldIndex int
-	var fieldSeparator string
+	options := fieldOptions{}
 
 	fieldCommand := &cobra.Command{
 		Use:   "field",
@@ -18,19 +22,19 @@ func DefineFieldCommand(rootCmd *cobra.Command) {
 		Run: func(cmd *cobra.Command, args []string) {
 			input := utilities.GetStandardInputString()
 
-			fields := strings.Split(input, fieldSeparator)
+			fields := strings.Split(input, options.fieldSeparator)
 
-			if len(fields) > fieldIndex {
-				cmd.Print(fields[fieldIndex])
+			if len(fields) > options.fieldIndex {
+				r := fields[options.fieldIndex]
+				fmt.Print(r)
 			} else {
-				cmd.PrintErr("Invalid field index")
-				os.Exit(1)
+				cmd.PrintErr("invalid field index")
 			}
 		},
 	}
 
-	fieldCommand.Flags().IntVarP(&fieldIndex, "index", "i", 1, "Zero based field index")
-	fieldCommand.Flags().StringVarP(&fieldSeparator, "separator", "s", " ", "Field separator")
+	fieldCommand.Flags().IntVarP(&options.fieldIndex, "index", "i", 1, "Zero based field index")
+	fieldCommand.Flags().StringVarP(&options.fieldSeparator, "separator", "s", " ", "Field separator")
 
 	rootCmd.AddCommand(fieldCommand)
 }
