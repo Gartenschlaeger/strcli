@@ -2,12 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "field",
+      "name": "field command",
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "${workspaceFolder}/cmd/app",
-      "args": ["field", "-index", "2", "-separator", ","]
+      "program": "${workspaceFolder}",
+      "args": ["field"]
     }
   ]
 }
