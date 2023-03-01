@@ -14,9 +14,10 @@ type fieldOptions struct {
 }
 
 func DefineFieldCommand(rootCmd *cobra.Command) {
+
 	options := fieldOptions{}
 
-	fieldCommand := &cobra.Command{
+	command := &cobra.Command{
 		Use:   "field",
 		Short: "Returns the field at the given index",
 		Run: func(cmd *cobra.Command, args []string) {
@@ -33,8 +34,9 @@ func DefineFieldCommand(rootCmd *cobra.Command) {
 		},
 	}
 
-	fieldCommand.Flags().IntVarP(&options.fieldIndex, "index", "i", 1, "Zero based field index")
-	fieldCommand.Flags().StringVarP(&options.fieldSeparator, "separator", "s", " ", "Field separator")
+	command.Flags().IntVarP(&options.fieldIndex, "index", "i", 1, "Zero based field index")
+	command.Flags().StringVarP(&options.fieldSeparator, "separator", "s", " ", "Field separator")
 
-	rootCmd.AddCommand(fieldCommand)
+	rootCmd.AddCommand(command)
+
 }

@@ -15,6 +15,7 @@ func main() {
 	}
 
 	commands.DefineFieldCommand(rootCmd)
+	commands.DefineSubCommand(rootCmd)
 
 	err := rootCmd.Execute()
 	if err != nil {
