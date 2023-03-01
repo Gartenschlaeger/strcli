@@ -2,6 +2,8 @@ package commands
 
 import (
 	"flag"
+
+	"github.com/Gartenschlaeger/strcli/pkg/strutilities"
 )
 
 type fieldCommandsFlagValues struct {
@@ -9,7 +11,7 @@ type fieldCommandsFlagValues struct {
 	separator *string
 }
 
-func FieldCommand(args []string) error {
+func FieldCommand(input string, args []string) (string, error) {
 	fv := fieldCommandsFlagValues{}
 
 	fs := flag.NewFlagSet("field", flag.ExitOnError)
@@ -21,53 +23,10 @@ func FieldCommand(args []string) error {
 		panic(err)
 	}
 
-	fs.PrintDefaults()
+	field, err := strutilities.GetField(input, *fv.index, *fv.separator)
+	if err != nil {
+		return "", err
+	}
 
-	return nil
+	return field, nil
 }
-
-// func readStdin() (*string, error) {
-// 	reader := bufio.NewReader(os.Stdin)
-
-// 	var output string
-// 	for {
-// 		input, err := reader.ReadString('\n')
-// 		if err == io.EOF {
-// 			break
-// 		}
-
-// 		if err != nil {
-// 			return nil, err
-// 		}
-
-// 		output += input
-// 	}
-
-// 	return &output, nil
-// }
-
-// //
-// // Returns a field by index and separator
-// // e.g. handleField("Hello world", 2, " ") -> "world"
-// //
-// func handleField(input string, fieldIndex int, separator rune) {
-
-// 	fmt.Println(separator)
-
-// 	startIndex := -1
-// 	length := 0
-
-// 	fieldCounter := 0
-// 	for i, c := range input {
-// 		if c == separator {
-// 			fieldCounter += 1
-// 			if fieldCounter == fieldIndex {
-// 				startIndex = i + 1
-// 				break
-// 			}
-// 		}
-// 	}
-
-// 	fmt.Println(startIndex, length)
-
-// }
