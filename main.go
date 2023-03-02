@@ -9,19 +9,17 @@ import (
 )
 
 func main() {
-
-	rootCmd := &cobra.Command{
-		Use:   "str COMMAND [ARG...]",
-		Short: "Runs common string operations.",
+	cmd := &cobra.Command{
+		Use:   "str",
+		Short: "Performs general string operations",
 	}
 
-	commands.DefineFieldCommand(rootCmd)
-	commands.DefineSubCommand(rootCmd)
+	commands.AddFieldCommand(cmd)
+	commands.AddSubCommand(cmd)
 
-	err := rootCmd.Execute()
+	err := cmd.Execute()
 	if err != nil {
 		fmt.Fprint(os.Stderr, err.Error())
 		os.Exit(1)
 	}
-
 }

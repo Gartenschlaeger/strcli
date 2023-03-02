@@ -14,41 +14,39 @@ type fieldOptions struct {
 	ignoreEmptyFields bool
 }
 
-func DefineFieldCommand(rootCmd *cobra.Command) {
+func AddFieldCommand(rootCmd *cobra.Command) {
+	opt := fieldOptions{}
 
-	options := fieldOptions{}
-
-	command := &cobra.Command{
-		Use:     "field",
-		Example: "field --index 1 --separator ,",
-		Short:   "Returns the field at the given index",
+	cmd := &cobra.Command{
+		Use:   "field",
+		Short: "Returns the field at the specified position",
 		Run: func(cmd *cobra.Command, args []string) {
-
 			input := utilities.GetStandardInputString()
 
 			var fields []string
-			if options.ignoreEmptyFields {
+			if opt.ignoreEmptyFields {
 				fields = strings.FieldsFunc(input, func(r rune) bool {
-					return strings.ContainsRune(options.fieldSeparator, r)
+					return strings.ContainsRune(opt.fieldSeparator, r)
 				})
 			} else {
-				fields = strings.Split(input, options.fieldSeparator)
+				fields = strings.Split(input, opt.fieldSeparator)
 			}
 
 			fieldsCount := len(fields)
-			fieldIndex := utilities.ClampI(options.fieldIndex, 0, fieldsCount-1)
+			fieldIndex := utilities.ClampI(opt.fieldIndex, 0, fieldsCount-1)
 
 			r := fields[fieldIndex]
 
 			fmt.Print(r)
-
 		},
 	}
 
-	command.Flags().IntVarP(&options.fieldIndex, "index", "i", 0, "Zero based field index")
-	command.Flags().StringVarP(&options.fieldSeparator, "separator", "s", " ", "Field separator")
-	command.Flags().BoolVar(&options.ignoreEmptyFields, "ignore-empty", false, "Ignores empty fields")
+	flags := cmd.Flags()
+	flags.SetInterspersed(false)
 
-	rootCmd.AddCommand(command)
+	flags.IntVarP(&opt.fieldIndex, "index", "i", 0, "Zero based field index")
+	flags.StringVarP(&opt.fieldSeparator, "separator", "s", " ", "Field separator")
+	flags.BoolVar(&opt.ignoreEmptyFields, "ignore-empty", false, "Ignores empty fields")
 
+	rootCmd.AddCommand(cmd)
 }
