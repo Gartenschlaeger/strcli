@@ -1,6 +1,6 @@
 # CLI tool str
 
-The CLI tool str provides support for common string operations and is easy to use.
+The CLI tool `str` performs common string operations in an easy way.
 
 # Commands
 
