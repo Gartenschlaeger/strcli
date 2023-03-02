@@ -1,42 +1,40 @@
 package commands
 
 import (
-	"fmt"
-
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
 )
 
-type subOptions struct {
-	startIndex int
-	length     int
+type SubCommandOptions struct {
+	Index  int
+	Length int
 }
 
-func AddSubCommand(rootCmd *cobra.Command) {
-	opt := subOptions{}
+func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) {
+	length := len(ctx.Input)
+
+	startIndex := utilities.ClampI(opt.Index, 0, length)
+	endIndex := utilities.ClampI(opt.Index+opt.Length, startIndex, length)
+
+	ctx.Result = ctx.Input[startIndex:endIndex]
+}
+
+func NewSubCommand(context *CommandContext) *cobra.Command {
+	opt := SubCommandOptions{}
 
 	cmd := &cobra.Command{
 		Use:   "sub",
 		Short: "Returns a partition beginning at index",
 		Run: func(cmd *cobra.Command, args []string) {
-			input := utilities.GetStandardInputString()
-
-			length := len(input)
-
-			startIndex := utilities.ClampI(opt.startIndex, 0, length)
-			endIndex := utilities.ClampI(opt.startIndex+opt.length, startIndex, length)
-
-			r := input[startIndex:endIndex]
-
-			fmt.Print(r)
+			SubCommandHandler(context, &opt)
 		},
 	}
 
 	flags := cmd.Flags()
 	flags.SetInterspersed(false)
 
-	flags.IntVarP(&opt.startIndex, "index", "i", 0, "Zero based index of the first character")
-	flags.IntVarP(&opt.length, "length", "l", 1, "Number of characters")
+	flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
+	flags.IntVarP(&opt.Length, "length", "l", 1, "Number of characters")
 
-	rootCmd.AddCommand(cmd)
+	return cmd
 }
