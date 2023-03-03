@@ -17,8 +17,10 @@ func NewLowerCommand(ctx *CommandContext) *CommandConfiguration {
 		name:             "lower",
 		description:      "Converts all characters to lower case",
 		hasSelectionFlag: true,
-		handler: func(cmd *cobra.Command, args []string) {
+		handler: func(cmd *cobra.Command, args []string) error {
 			LowerCommandHandler(ctx)
+
+			return nil
 		},
 	}
 

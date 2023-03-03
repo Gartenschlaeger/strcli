@@ -19,8 +19,9 @@ type CommandContext struct {
 type CommandConfiguration struct {
 	name             string
 	description      string
+	example          string
 	hasSelectionFlag bool
-	handler          func(cmd *cobra.Command, args []string)
+	handler          func(cmd *cobra.Command, args []string) error
 	setupFlags       func(flags *pflag.FlagSet)
 }
 
@@ -72,19 +73,20 @@ func ProcessResult(ctx *CommandContext, handlerCallback func(input string) strin
 
 func SetupCommand(ctx *CommandContext, cmd *CommandConfiguration) *cobra.Command {
 	c := &cobra.Command{
-		Use:   cmd.name,
-		Short: cmd.description,
-		Run:   cmd.handler,
+		Use:     cmd.name,
+		Short:   cmd.description,
+		Example: cmd.example,
+		RunE:    cmd.handler,
+	}
+
+	flags := c.Flags()
+	flags.SetInterspersed(false)
+
+	if cmd.setupFlags != nil {
+		cmd.setupFlags(flags)
 	}
 
 	if cmd.hasSelectionFlag {
-		flags := c.Flags()
-		flags.SetInterspersed(false)
-
-		if cmd.setupFlags != nil {
-			cmd.setupFlags(flags)
-		}
-
 		flags.StringVarP(&ctx.Selection, "selection", "s", "", "Character range selection")
 	}
 
@@ -107,17 +109,17 @@ func Execute() {
 	rootCmd.Version = "1.6.0"
 
 	rootCmd.AddCommand(
-		NewFieldCommand(ctx),
-		NewReplaceCommand(ctx),
-		NewSubCommand(ctx),
-		NewRemoveCommand(ctx),
-		NewTrimCommand(ctx),
-		NewMd5Command(ctx),
-		NewSha1Command(ctx),
-		NewShuffleCommand(ctx),
-		NewReverseCommand(ctx),
+		SetupCommand(ctx, NewFieldCommand(ctx)),
+		SetupCommand(ctx, NewReplaceCommand(ctx)),
+		SetupCommand(ctx, NewSubCommand(ctx)),
+		SetupCommand(ctx, NewRemoveCommand(ctx)),
 		SetupCommand(ctx, NewLowerCommand(ctx)),
 		SetupCommand(ctx, NewUpperCommand(ctx)),
+		SetupCommand(ctx, NewTrimCommand(ctx)),
+		SetupCommand(ctx, NewMd5Command(ctx)),
+		SetupCommand(ctx, NewSha1Command(ctx)),
+		SetupCommand(ctx, NewShuffleCommand(ctx)),
+		SetupCommand(ctx, NewReverseCommand(ctx)),
 	)
 
 	err := rootCmd.Execute()

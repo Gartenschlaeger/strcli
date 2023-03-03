@@ -17,8 +17,10 @@ func NewUpperCommand(ctx *CommandContext) *CommandConfiguration {
 		name:             "upper",
 		description:      "Converts characters to upper case",
 		hasSelectionFlag: true,
-		handler: func(cmd *cobra.Command, args []string) {
+		handler: func(cmd *cobra.Command, args []string) error {
 			UpperCommandHandler(ctx)
+
+			return nil
 		},
 	}
 

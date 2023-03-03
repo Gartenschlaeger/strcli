@@ -5,6 +5,7 @@ import (
 
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 type FieldCommandOptions struct {
@@ -38,23 +39,23 @@ func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
 	ctx.Result = fields[fieldIndex]
 }
 
-func NewFieldCommand(ctx *CommandContext) *cobra.Command {
+func NewFieldCommand(ctx *CommandContext) *CommandConfiguration {
 	opt := FieldCommandOptions{}
 
-	cmd := &cobra.Command{
-		Use:   "field",
-		Short: "Returns the field at the specified position",
-		Run: func(cmd *cobra.Command, args []string) {
+	cmd := &CommandConfiguration{
+		name:        "field",
+		description: "Returns the field at the specified position",
+		handler: func(cmd *cobra.Command, args []string) error {
 			FieldCommandHandler(ctx, &opt)
+
+			return nil
+		},
+		setupFlags: func(flags *pflag.FlagSet) {
+			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based field index")
+			flags.StringVarP(&opt.Separator, "separator", "s", " ", "Field separator")
+			flags.BoolVar(&opt.IgnoreEmpty, "ignore-empty", false, "Ignores empty fields")
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
-
-	flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based field index")
-	flags.StringVarP(&opt.Separator, "separator", "s", " ", "Field separator")
-	flags.BoolVar(&opt.IgnoreEmpty, "ignore-empty", false, "Ignores empty fields")
 
 	return cmd
 }
