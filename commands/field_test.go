@@ -18,10 +18,11 @@ type fieldTestSet struct {
 
 func TestFieldCommand(t *testing.T) {
 	tests := []fieldTestSet{
-		{"should return first field for index 0", "Max Mustermann", 0, " ", false, "Max"},
-		{"should return second field for index 1", "Max Mustermann", 1, " ", false, "Mustermann"},
-		{"should return first field for negative index", "Max Mustermann", -3, " ", false, "Max"},
-		{"should return last field for index overflow", "Max Mustermann", 10, " ", false, "Mustermann"},
+		{"index 0 returns first field", "Max Mustermann", 0, " ", false, "Max"},
+		{"index 1 returns second field", "Max Mustermann", 1, " ", false, "Mustermann"},
+		{"index -1 returns last field", "Max Mustermann", -1, " ", false, "Mustermann"},
+		{"index -5 returns first field", "Max Mustermann", -5, " ", false, "Max"},
+		{"index overflow returns last field", "Max Mustermann", 10, " ", false, "Mustermann"},
 	}
 
 	for _, ts := range tests {

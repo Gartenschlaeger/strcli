@@ -13,18 +13,27 @@ type FieldCommandOptions struct {
 	IgnoreEmpty bool
 }
 
-func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
-	var fields []string
-	if opt.IgnoreEmpty {
-		fields = strings.FieldsFunc(ctx.Input, func(r rune) bool {
-			return strings.ContainsRune(opt.Separator, r)
+func splitString(input string, separator string, removeEmptyFields bool) []string {
+	if removeEmptyFields {
+		return strings.FieldsFunc(input, func(r rune) bool {
+			return strings.ContainsRune(separator, r)
 		})
 	} else {
-		fields = strings.Split(ctx.Input, opt.Separator)
+		return strings.Split(input, separator)
+	}
+}
+
+func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
+	fields := splitString(ctx.Input, opt.Separator, opt.IgnoreEmpty)
+	fieldsCount := len(fields)
+
+	fieldIndex := opt.Index
+
+	if opt.Index < 0 {
+		fieldIndex = fieldsCount + opt.Index
 	}
 
-	fieldsCount := len(fields)
-	fieldIndex := utilities.ClampI(opt.Index, 0, fieldsCount-1)
+	fieldIndex = utilities.ClampI(fieldIndex, 0, fieldsCount-1)
 
 	ctx.Result = fields[fieldIndex]
 }
