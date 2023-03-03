@@ -12,7 +12,7 @@ func TestShuffleCommand(t *testing.T) {
 	t.Run("should have the same length", func(t *testing.T) {
 		input := "1234567890"
 
-		ctx := commands.NewContext(input)
+		ctx := commands.NewCommandContext(input)
 		commands.ShuffleCommandHandler(ctx)
 
 		assert.Equal(t, len(input), len(ctx.Result))
@@ -21,7 +21,7 @@ func TestShuffleCommand(t *testing.T) {
 	t.Run("should have the same characters", func(t *testing.T) {
 		input := "1234567890"
 
-		ctx := commands.NewContext(input)
+		ctx := commands.NewCommandContext(input)
 		commands.ShuffleCommandHandler(ctx)
 
 		for _, r := range input {

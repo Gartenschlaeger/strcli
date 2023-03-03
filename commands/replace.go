@@ -1,10 +1,10 @@
 package commands
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 type ReplaceCommandOptions struct {
@@ -54,31 +54,27 @@ func ReplaceCommandHandler(ctx *CommandContext, opt *ReplaceCommandOptions) {
 	}
 }
 
-func NewReplaceCommand(ctx *CommandContext) *cobra.Command {
+func NewReplaceCommand(ctx *CommandContext) *CommandConfiguration {
 	opt := ReplaceCommandOptions{}
 
-	cmd := &cobra.Command{
-		Use:     "replace",
-		Example: "str replace -o \" \" -n \"_\" -a",
-		Short:   "Replaces occurrences with a new value",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			if opt.OldValue == "" {
-				return errors.New("flag --old is required")
-			}
-
+	cmd := &CommandConfiguration{
+		name:        "replace",
+		description: "Replaces occurrences with a new value",
+		example:     "str replace -o \" \" -n \"_\" -a",
+		handler: func(cmd *cobra.Command, args []string) error {
 			ReplaceCommandHandler(ctx, &opt)
 
 			return nil
 		},
+		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+			flags.StringVarP(&opt.OldValue, "old", "o", "", "Value to be replaced")
+			flags.StringVarP(&opt.NewValue, "new", "n", "", "New value to replace the old value")
+			flags.BoolVarP(&opt.ReplaceAll, "replace-all", "a", false, "Replace all occurrences instead of first one only")
+			flags.BoolVarP(&opt.IgnoreCasing, "ignore-casing", "i", false, "Ignore casing when comparing old values")
+
+			cmd.MarkFlagRequired("old")
+		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
-
-	flags.StringVarP(&opt.OldValue, "old", "o", "", "Value to be replaced")
-	flags.StringVarP(&opt.NewValue, "new", "n", "", "New value to replace the old value")
-	flags.BoolVarP(&opt.ReplaceAll, "replace-all", "a", false, "Replace all occurrences instead of first one only")
-	flags.BoolVarP(&opt.IgnoreCasing, "ignore-casing", "i", false, "Ignore casing when comparing old values")
 
 	return cmd
 }

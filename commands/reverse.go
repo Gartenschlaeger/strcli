@@ -13,17 +13,16 @@ func ReverseCommandHandler(ctx *CommandContext) {
 	ctx.Result = string(runes)
 }
 
-func NewReverseCommand(ctx *CommandContext) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "reverse",
-		Short: "Reverses the order of all characters",
-		Run: func(cmd *cobra.Command, args []string) {
+func NewReverseCommand(ctx *CommandContext) *CommandConfiguration {
+	cmd := &CommandConfiguration{
+		name:        "reverse",
+		description: "Reverses the order of all characters",
+		handler: func(cmd *cobra.Command, args []string) error {
 			ReverseCommandHandler(ctx)
+
+			return nil
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
 
 	return cmd
 }

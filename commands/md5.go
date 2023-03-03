@@ -16,17 +16,16 @@ func Md5CommandHandler(ctx *CommandContext) {
 	ctx.Result = getMD5Hash(ctx.Input)
 }
 
-func NewMd5Command(ctx *CommandContext) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "md5",
-		Short: "Calculates a MD5 hash",
-		Run: func(cmd *cobra.Command, args []string) {
+func NewMd5Command(ctx *CommandContext) *CommandConfiguration {
+	cmd := &CommandConfiguration{
+		name:        "md5",
+		description: "Calculates a MD5 hash",
+		handler: func(cmd *cobra.Command, args []string) error {
 			Md5CommandHandler(ctx)
+
+			return nil
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
 
 	return cmd
 }

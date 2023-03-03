@@ -7,20 +7,22 @@ import (
 )
 
 func UpperCommandHandler(ctx *CommandContext) {
-	ctx.Result = strings.ToUpper(ctx.Input)
+	ProcessResult(ctx, func(input string) string {
+		return strings.ToUpper(input)
+	})
 }
 
-func NewUpperCommand(ctx *CommandContext) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "upper",
-		Short: "Converts all characters to upper case",
-		Run: func(cmd *cobra.Command, args []string) {
+func NewUpperCommand(ctx *CommandContext) *CommandConfiguration {
+	cmd := &CommandConfiguration{
+		name:             "upper",
+		description:      "Converts characters to upper case",
+		hasSelectionFlag: true,
+		handler: func(cmd *cobra.Command, args []string) error {
 			UpperCommandHandler(ctx)
+
+			return nil
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
 
 	return cmd
 }

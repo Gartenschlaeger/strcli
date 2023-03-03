@@ -23,17 +23,16 @@ func ShuffleCommandHandler(ctx *CommandContext) {
 	ctx.Result = shuffleString(ctx.Input)
 }
 
-func NewShuffleCommand(ctx *CommandContext) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "shuffle",
-		Short: "Shuffles the individual characters randomly",
-		Run: func(cmd *cobra.Command, args []string) {
+func NewShuffleCommand(ctx *CommandContext) *CommandConfiguration {
+	cmd := &CommandConfiguration{
+		name:        "shuffle",
+		description: "Shuffles the individual characters randomly",
+		handler: func(cmd *cobra.Command, args []string) error {
 			ShuffleCommandHandler(ctx)
+
+			return nil
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
 
 	return cmd
 }

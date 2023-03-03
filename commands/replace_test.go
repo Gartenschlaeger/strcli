@@ -69,7 +69,7 @@ func TestReplaceCommand(t *testing.T) {
 
 	for i, tc := range testCases {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
-			ctx := commands.NewContext(tc.input)
+			ctx := commands.NewCommandContext(tc.input)
 
 			opt := commands.ReplaceCommandOptions{
 				OldValue:     tc.oldValue,

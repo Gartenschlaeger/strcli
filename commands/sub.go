@@ -3,6 +3,7 @@ package commands
 import (
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 type SubCommandOptions struct {
@@ -11,27 +12,27 @@ type SubCommandOptions struct {
 }
 
 func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) {
-	startIndex, endIndex := utilities.ClampGetTextRange(ctx.Input, opt.Index, opt.Length)
+	startIndex, endIndex := utilities.ClampStringPartion(ctx.Input, opt.Index, opt.Length)
 
 	ctx.Result = ctx.Input[startIndex:endIndex]
 }
 
-func NewSubCommand(context *CommandContext) *cobra.Command {
+func NewSubCommand(context *CommandContext) *CommandConfiguration {
 	opt := SubCommandOptions{}
 
-	cmd := &cobra.Command{
-		Use:   "sub",
-		Short: "Returns a partition",
-		Run: func(cmd *cobra.Command, args []string) {
+	cmd := &CommandConfiguration{
+		name:        "sub",
+		description: "Returns a partition",
+		handler: func(cmd *cobra.Command, args []string) error {
 			SubCommandHandler(context, &opt)
+
+			return nil
+		},
+		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
+			flags.IntVarP(&opt.Length, "length", "l", 1, "Number of characters")
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
-
-	flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
-	flags.IntVarP(&opt.Length, "length", "l", 1, "Number of characters")
 
 	return cmd
 }

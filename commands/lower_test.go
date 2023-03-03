@@ -9,20 +9,23 @@ import (
 )
 
 type lowerTestCase struct {
-	input    string
-	expected string
+	input     string
+	selection string
+	expected  string
 }
 
 func TestLowerCommand(t *testing.T) {
 	testCases := []lowerTestCase{
-		{"This is a test", "this is a test"},
-		{"JOHN", "john"},
-		{"test", "test"},
+		{"This is a test", "", "this is a test"},
+		{"JOHN", "", "john"},
+		{"test", "", "test"},
+		{"HELLO WORLD", "5", "hello WORLD"},
 	}
 
 	for i, tc := range testCases {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
-			ctx := commands.NewContext(tc.input)
+			ctx := commands.NewCommandContext(tc.input)
+			ctx.Selection = tc.selection
 
 			commands.LowerCommandHandler(ctx)
 

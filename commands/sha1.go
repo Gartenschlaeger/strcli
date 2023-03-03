@@ -19,17 +19,16 @@ func ShaCommandHandler(ctx *CommandContext) {
 	ctx.Result = getSha1Hash(ctx.Input)
 }
 
-func NewSha1Command(ctx *CommandContext) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "sha1",
-		Short: "Calculates a SHA1 hash",
-		Run: func(cmd *cobra.Command, args []string) {
+func NewSha1Command(ctx *CommandContext) *CommandConfiguration {
+	cmd := &CommandConfiguration{
+		name:        "sha1",
+		description: "Calculates a SHA1 hash",
+		handler: func(cmd *cobra.Command, args []string) error {
 			ShaCommandHandler(ctx)
+
+			return nil
 		},
 	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
 
 	return cmd
 }
