@@ -40,6 +40,7 @@ func Execute() {
 		NewSubCommand(ctx),
 		NewLowerCommand(ctx),
 		NewUpperCommand(ctx),
+		NewTrimCommand(ctx),
 	)
 
 	err := rootCmd.Execute()
