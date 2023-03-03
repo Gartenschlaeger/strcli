@@ -8,10 +8,10 @@ import (
 )
 
 type ReplaceCommandOptions struct {
-	OldValue   string
-	NewValue   string
-	ReplaceAll bool
-	IgnoreCase bool
+	OldValue     string
+	NewValue     string
+	ReplaceAll   bool
+	IgnoreCasing bool
 }
 
 func replaceStringPortion(input string, index int, oldValue string) string {
@@ -23,7 +23,7 @@ func replaceStringPortion(input string, index int, oldValue string) string {
 }
 
 func ReplaceCommandHandler(ctx *CommandContext, opt *ReplaceCommandOptions) {
-	if !opt.IgnoreCase {
+	if !opt.IgnoreCasing {
 		if opt.ReplaceAll {
 			ctx.Result = strings.ReplaceAll(ctx.Input, opt.OldValue, opt.NewValue)
 		} else {
@@ -78,7 +78,7 @@ func NewReplaceCommand(ctx *CommandContext) *cobra.Command {
 	flags.StringVarP(&opt.OldValue, "old", "o", "", "Value to be replaced")
 	flags.StringVarP(&opt.NewValue, "new", "n", "", "New value to replace the old value")
 	flags.BoolVarP(&opt.ReplaceAll, "replace-all", "a", false, "Replace all occurrences instead of first one only")
-	flags.BoolVarP(&opt.IgnoreCase, "ignore-casing", "i", false, "Ignore casing when comparing old values")
+	flags.BoolVarP(&opt.IgnoreCasing, "ignore-casing", "i", false, "Ignore casing when comparing old values")
 
 	return cmd
 }

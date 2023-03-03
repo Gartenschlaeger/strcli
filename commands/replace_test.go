@@ -12,7 +12,7 @@ type replaceTestCase struct {
 	input          string
 	oldValue       string
 	newValue       string
-	ignoreCase     bool
+	ignoreCasing   bool
 	replaceAll     bool
 	expectedResult string
 }
@@ -24,7 +24,7 @@ func defineTestCases() *[]replaceTestCase {
 			input:          "test 123",
 			oldValue:       "t",
 			newValue:       "_",
-			ignoreCase:     false,
+			ignoreCasing:   false,
 			replaceAll:     false,
 			expectedResult: "_est 123",
 		},
@@ -33,7 +33,7 @@ func defineTestCases() *[]replaceTestCase {
 			input:          "test 123",
 			oldValue:       "t",
 			newValue:       "_",
-			ignoreCase:     false,
+			ignoreCasing:   false,
 			replaceAll:     true,
 			expectedResult: "_es_ 123",
 		},
@@ -42,7 +42,7 @@ func defineTestCases() *[]replaceTestCase {
 			input:          "TEST 123",
 			oldValue:       "t",
 			newValue:       "_",
-			ignoreCase:     true,
+			ignoreCasing:   true,
 			replaceAll:     false,
 			expectedResult: "_EST 123",
 		},
@@ -51,7 +51,7 @@ func defineTestCases() *[]replaceTestCase {
 			input:          "Test 123",
 			oldValue:       "t",
 			newValue:       "_",
-			ignoreCase:     true,
+			ignoreCasing:   true,
 			replaceAll:     true,
 			expectedResult: "_es_ 123",
 		},
@@ -60,7 +60,7 @@ func defineTestCases() *[]replaceTestCase {
 			input:          "Max,Mustermann,Musterweg 123,Musterhausen",
 			oldValue:       "Muster",
 			newValue:       "Test",
-			ignoreCase:     false,
+			ignoreCasing:   false,
 			replaceAll:     true,
 			expectedResult: "Max,Testmann,Testweg 123,Testhausen",
 		},
@@ -77,10 +77,10 @@ func TestReplaceCommand(t *testing.T) {
 			ctx := commands.NewContext(tc.input)
 
 			opt := commands.ReplaceCommandOptions{
-				OldValue:   tc.oldValue,
-				NewValue:   tc.newValue,
-				ReplaceAll: tc.replaceAll,
-				IgnoreCase: tc.ignoreCase,
+				OldValue:     tc.oldValue,
+				NewValue:     tc.newValue,
+				ReplaceAll:   tc.replaceAll,
+				IgnoreCasing: tc.ignoreCasing,
 			}
 
 			commands.ReplaceCommandHandler(ctx, &opt)
