@@ -97,7 +97,7 @@ func Execute() {
 		SilenceUsage:  false,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			if ctx.Selection != "" {
-				re, _ := regexp.Compile(`^-?\d+(?:,\d+)?$`)
+				re, _ := regexp.Compile(`^-?\d+(?::\d+)?$`)
 				if !re.MatchString(ctx.Selection) {
 					return errors.New("invalid value for --selection")
 				}
