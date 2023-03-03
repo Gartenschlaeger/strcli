@@ -70,14 +70,12 @@ func ProcessResult(ctx *CommandContext, handlerCallback func(input string) strin
 	ctx.Result = ctx.Input[:startIndex] + sr + ctx.Input[endIndex:]
 }
 
-func SetupCommand(ctx *CommandContext, rootCmd *cobra.Command, cmd *CommandConfiguration) {
+func SetupCommand(ctx *CommandContext, cmd *CommandConfiguration) *cobra.Command {
 	c := &cobra.Command{
 		Use:   cmd.name,
 		Short: cmd.description,
 		Run:   cmd.handler,
 	}
-
-	rootCmd.AddCommand(c)
 
 	if cmd.hasSelectionFlag {
 		flags := c.Flags()
@@ -89,6 +87,8 @@ func SetupCommand(ctx *CommandContext, rootCmd *cobra.Command, cmd *CommandConfi
 
 		flags.StringVarP(&ctx.Selection, "selection", "s", "", "Character range selection")
 	}
+
+	return c
 }
 
 func Execute() {
@@ -106,9 +106,6 @@ func Execute() {
 
 	rootCmd.Version = "1.6.0"
 
-	SetupCommand(ctx, rootCmd, NewLowerCommand(ctx))
-	SetupCommand(ctx, rootCmd, NewUpperCommand(ctx))
-
 	rootCmd.AddCommand(
 		NewFieldCommand(ctx),
 		NewReplaceCommand(ctx),
@@ -119,6 +116,8 @@ func Execute() {
 		NewSha1Command(ctx),
 		NewShuffleCommand(ctx),
 		NewReverseCommand(ctx),
+		SetupCommand(ctx, NewLowerCommand(ctx)),
+		SetupCommand(ctx, NewUpperCommand(ctx)),
 	)
 
 	err := rootCmd.Execute()
