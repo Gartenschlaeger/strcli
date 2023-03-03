@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -63,19 +62,17 @@ func NewReplaceCommand(ctx *CommandContext) *CommandConfiguration {
 		description: "Replaces occurrences with a new value",
 		example:     "str replace -o \" \" -n \"_\" -a",
 		handler: func(cmd *cobra.Command, args []string) error {
-			if opt.OldValue == "" {
-				return errors.New("flag --old is required")
-			}
-
 			ReplaceCommandHandler(ctx, &opt)
 
 			return nil
 		},
-		setupFlags: func(flags *pflag.FlagSet) {
+		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.OldValue, "old", "o", "", "Value to be replaced")
 			flags.StringVarP(&opt.NewValue, "new", "n", "", "New value to replace the old value")
 			flags.BoolVarP(&opt.ReplaceAll, "replace-all", "a", false, "Replace all occurrences instead of first one only")
 			flags.BoolVarP(&opt.IgnoreCasing, "ignore-casing", "i", false, "Ignore casing when comparing old values")
+
+			cmd.MarkFlagRequired("old")
 		},
 	}
 

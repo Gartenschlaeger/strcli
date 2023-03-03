@@ -50,7 +50,7 @@ func NewFieldCommand(ctx *CommandContext) *CommandConfiguration {
 
 			return nil
 		},
-		setupFlags: func(flags *pflag.FlagSet) {
+		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based field index")
 			flags.StringVarP(&opt.Separator, "separator", "s", " ", "Field separator")
 			flags.BoolVar(&opt.IgnoreEmpty, "ignore-empty", false, "Ignores empty fields")

@@ -26,7 +26,7 @@ func NewTrimCommand(ctx *CommandContext) *CommandConfiguration {
 
 			return nil
 		},
-		setupFlags: func(flags *pflag.FlagSet) {
+		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.Cutset, "cutset", "c", "\n\r\t ", "Set of characters to be removed")
 		},
 	}

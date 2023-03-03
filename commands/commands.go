@@ -22,7 +22,7 @@ type CommandConfiguration struct {
 	example          string
 	hasSelectionFlag bool
 	handler          func(cmd *cobra.Command, args []string) error
-	setupFlags       func(flags *pflag.FlagSet)
+	setup            func(cmd *cobra.Command, flags *pflag.FlagSet)
 }
 
 func NewCommandContext(input string) *CommandContext {
@@ -61,26 +61,26 @@ func ProcessResult(ctx *CommandContext, handlerCallback func(input string) strin
 	}
 }
 
-func setupCommand(ctx *CommandContext, cmd *CommandConfiguration) *cobra.Command {
-	c := &cobra.Command{
-		Use:     cmd.name,
-		Short:   cmd.description,
-		Example: cmd.example,
-		RunE:    cmd.handler,
+func setupCommand(ctx *CommandContext, cfg *CommandConfiguration) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     cfg.name,
+		Short:   cfg.description,
+		Example: cfg.example,
+		RunE:    cfg.handler,
 	}
 
-	flags := c.Flags()
+	flags := cmd.Flags()
 	flags.SetInterspersed(false)
 
-	if cmd.setupFlags != nil {
-		cmd.setupFlags(flags)
+	if cfg.setup != nil {
+		cfg.setup(cmd, flags)
 	}
 
-	if cmd.hasSelectionFlag {
+	if cfg.hasSelectionFlag {
 		flags.StringVarP(&ctx.Selection, "selection", "s", "", "Character range selection")
 	}
 
-	return c
+	return cmd
 }
 
 func Execute() {
@@ -89,12 +89,9 @@ func Execute() {
 	ctx := NewCommandContext(input)
 
 	rootCmd := &cobra.Command{
-		Use:   "str",
-		Short: "Performs general string operations",
-		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			fmt.Print(ctx.Result)
-		},
-		SilenceErrors: true,
+		Use:           "str",
+		Short:         "Performs general string operations",
+		SilenceErrors: false,
 		SilenceUsage:  false,
 	}
 
@@ -118,4 +115,6 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+
+	fmt.Print(ctx.Result)
 }

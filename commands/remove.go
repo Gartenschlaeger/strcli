@@ -28,7 +28,7 @@ func NewRemoveCommand(ctx *CommandContext) *CommandConfiguration {
 
 			return nil
 		},
-		setupFlags: func(flags *pflag.FlagSet) {
+		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
 			flags.IntVarP(&opt.Length, "length", "l", 1, "Number of characters")
 		},
