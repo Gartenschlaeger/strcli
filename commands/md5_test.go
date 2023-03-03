@@ -20,7 +20,7 @@ func TestMd5Command(t *testing.T) {
 
 	for i, tc := range testCases {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
-			ctx := commands.NewContext(tc.input)
+			ctx := commands.NewCommandContext(tc.input)
 
 			commands.Md5CommandHandler(ctx)
 
