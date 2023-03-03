@@ -30,17 +30,17 @@ func ClampI(v, min, max int) int {
 	return v
 }
 
-func ClampGetTextRange(text string, index int, length int) (int, int) {
-	textLength := len(text)
-
-	var startIndex, endIndex int
+func ClampStringPartion(input string, index int, length int) (startIndex int, endIndex int) {
+	tl := len(input)
 
 	if index < 0 {
-		startIndex = ClampI(textLength+index, 0, textLength)
-		endIndex = ClampI(startIndex+length, startIndex, textLength)
+		// x characters from end
+		startIndex = ClampI(tl+index, 0, tl)
+		endIndex = ClampI(startIndex+length, startIndex, tl)
 	} else {
-		startIndex = ClampI(index, 0, textLength)
-		endIndex = ClampI(index+length, startIndex, textLength)
+		// x characters from start
+		startIndex = ClampI(index, 0, tl)
+		endIndex = ClampI(startIndex+length, startIndex, tl)
 	}
 
 	return startIndex, endIndex

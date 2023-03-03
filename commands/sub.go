@@ -11,7 +11,7 @@ type SubCommandOptions struct {
 }
 
 func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) {
-	startIndex, endIndex := utilities.ClampGetTextRange(ctx.Input, opt.Index, opt.Length)
+	startIndex, endIndex := utilities.ClampStringPartion(ctx.Input, opt.Index, opt.Length)
 
 	ctx.Result = ctx.Input[startIndex:endIndex]
 }

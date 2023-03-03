@@ -11,7 +11,7 @@ type RemoveCommandOptions struct {
 }
 
 func RemoveCommandHandler(ctx *CommandContext, opt *RemoveCommandOptions) {
-	startIndex, endIndex := utilities.ClampGetTextRange(ctx.Input, opt.Index, opt.Length)
+	startIndex, endIndex := utilities.ClampStringPartion(ctx.Input, opt.Index, opt.Length)
 
 	ctx.Result = ctx.Input[0:startIndex] + ctx.Input[endIndex:]
 }
