@@ -14,6 +14,13 @@ _`str` works with standard input/output, so you can easily perform multiple oper
 echo "John Doe" | str field -i 1 | str lower # returns doe
 ```
 
+# Contribution
+
+Since I do not know or can guess all use cases, it is difficult to implement all commands.
+If you have a use case or a good idea for a command, feel free to suggest it as an issue.
+
+Of course, pull requests are always welcome.
+
 # Installation
 
 Currently the app has not been added to any package manager.
