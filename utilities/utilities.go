@@ -3,6 +3,7 @@ package utilities
 import (
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -17,6 +18,15 @@ func GetStandardInputString() string {
 	}
 
 	return ""
+}
+
+func ParseInt(s string, d int) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		i = d
+	}
+
+	return i
 }
 
 func ClampI(v, min, max int) int {

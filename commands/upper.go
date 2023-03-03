@@ -7,11 +7,11 @@ import (
 )
 
 type UpperCommandOptions struct {
-	Select string
+	Selection string
 }
 
 func UpperCommandHandler(ctx *CommandContext, opt *UpperCommandOptions) {
-	ManipulateSelection(ctx, opt.Select, func(input string) string {
+	ManipulateSelection(ctx, opt.Selection, func(input string) string {
 		return strings.ToUpper(input)
 	})
 }
@@ -21,7 +21,7 @@ func NewUpperCommand(ctx *CommandContext) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "upper",
-		Short: "Converts all characters to upper case",
+		Short: "Converts characters to upper case",
 		Run: func(cmd *cobra.Command, args []string) {
 			UpperCommandHandler(ctx, &opt)
 		},
@@ -30,7 +30,7 @@ func NewUpperCommand(ctx *CommandContext) *cobra.Command {
 	flags := cmd.Flags()
 	flags.SetInterspersed(false)
 
-	flags.StringVarP(&opt.Select, "select", "s", "", "Selection of characters")
+	flags.StringVarP(&opt.Selection, "selection", "s", "", "Character range selection")
 
 	return cmd
 }

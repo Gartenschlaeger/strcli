@@ -9,9 +9,9 @@ import (
 )
 
 type upperTestCase struct {
-	input    string
-	rangeVal string
-	expected string
+	input     string
+	selection string
+	expected  string
 }
 
 func TestUpperCommand(t *testing.T) {
@@ -29,7 +29,7 @@ func TestUpperCommand(t *testing.T) {
 			ctx := commands.NewContext(tc.input)
 
 			opt := commands.UpperCommandOptions{
-				Select: tc.rangeVal,
+				Selection: tc.selection,
 			}
 
 			commands.UpperCommandHandler(ctx, &opt)

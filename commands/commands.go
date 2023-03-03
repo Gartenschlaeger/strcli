@@ -3,7 +3,6 @@ package commands
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/Gartenschlaeger/strcli/utilities"
@@ -22,22 +21,13 @@ func NewContext(input string) *CommandContext {
 	}
 }
 
-func parseInt(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		i = 0
-	}
-
-	return i
-}
-
 func parseSelection(selection string, input string) (index int, length int) {
 	p := strings.Split(selection, ":")
 	if len(p) == 2 {
-		return parseInt(p[0]), parseInt(p[1])
+		return utilities.ParseInt(p[0], 0), utilities.ParseInt(p[1], 0)
 	}
 
-	f := parseInt(p[0])
+	f := utilities.ParseInt(p[0], 0)
 
 	if f < 0 {
 		return len(input) + f, -f
