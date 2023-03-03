@@ -38,14 +38,14 @@ func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
 	ctx.Result = fields[fieldIndex]
 }
 
-func NewFieldCommand(context *CommandContext) *cobra.Command {
+func NewFieldCommand(ctx *CommandContext) *cobra.Command {
 	opt := FieldCommandOptions{}
 
 	cmd := &cobra.Command{
 		Use:   "field",
 		Short: "Returns the field at the specified position",
 		Run: func(cmd *cobra.Command, args []string) {
-			FieldCommandHandler(context, &opt)
+			FieldCommandHandler(ctx, &opt)
 		},
 	}
 
