@@ -35,6 +35,8 @@ func Execute() {
 		},
 	}
 
+	rootCmd.Version = "1.0.0"
+
 	rootCmd.AddCommand(
 		NewFieldCommand(ctx),
 		NewSubCommand(ctx),
