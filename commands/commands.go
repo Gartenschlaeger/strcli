@@ -35,7 +35,7 @@ func Execute() {
 		},
 	}
 
-	rootCmd.Version = "1.4.0"
+	rootCmd.Version = "1.5.0"
 
 	rootCmd.AddCommand(
 		NewFieldCommand(ctx),
@@ -48,6 +48,7 @@ func Execute() {
 		NewMd5Command(ctx),
 		NewSha1Command(ctx),
 		NewShuffleCommand(ctx),
+		NewReverseCommand(ctx),
 	)
 
 	err := rootCmd.Execute()
