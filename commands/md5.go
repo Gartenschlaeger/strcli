@@ -19,7 +19,7 @@ func Md5CommandHandler(ctx *CommandContext) {
 func NewMd5Command(ctx *CommandContext) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "md5",
-		Short: "Calculates the MD5 hash",
+		Short: "Calculates a MD5 hash",
 		Run: func(cmd *cobra.Command, args []string) {
 			Md5CommandHandler(ctx)
 		},

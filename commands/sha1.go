@@ -22,7 +22,7 @@ func ShaCommandHandler(ctx *CommandContext) {
 func NewSha1Command(ctx *CommandContext) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sha1",
-		Short: "Calculates the SHA1 hash",
+		Short: "Calculates a SHA1 hash",
 		Run: func(cmd *cobra.Command, args []string) {
 			ShaCommandHandler(ctx)
 		},
