@@ -1,47 +1,21 @@
 # CLI tool str
 
-The CLI tool `str` performs common string operations in an easy way.
+CLI tool `str` performs common string operations in an easy way.
 
-# Commands
-
-## sub
+_Example:_
 
 ```sh
-str sub <start_index> <length>
+echo "John Doe" | str field -i 1 # returns "Doe"
 ```
 
-## field
+_`str` works with standard input/output, so you can easily perform multiple operations in a chain:_
 
 ```sh
-str field <field_index> <separator>
+echo "John Doe" | str field -i 1 | str lower # returns doe
 ```
 
-## trim
+# Installation
 
-```sh
-str trim <characters>
-```
+Currently the app has not been added to any package manager.
 
-## len
-
-```
-str len
-```
-
-## index
-
-```sh
-str index <search_text> <start_index>
-```
-
-## join
-
-```sh
-str join <separator>
-```
-
-## concat
-
-```sh
-str concat
-```
+If you want to use the app, clone the repository and run `make install`.

@@ -24,19 +24,22 @@ var rootCmd *cobra.Command
 
 func Execute() {
 	input := utilities.GetStandardInputString()
-	context := NewContext(input)
+
+	ctx := NewContext(input)
 
 	rootCmd = &cobra.Command{
 		Use:   "str",
 		Short: "Performs general string operations",
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			fmt.Print(context.Result)
+			fmt.Print(ctx.Result)
 		},
 	}
 
 	rootCmd.AddCommand(
-		NewFieldCommand(context),
-		NewSubCommand(context),
+		NewFieldCommand(ctx),
+		NewSubCommand(ctx),
+		NewLowerCommand(ctx),
+		NewUpperCommand(ctx),
 	)
 
 	err := rootCmd.Execute()
