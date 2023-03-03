@@ -1,7 +1,7 @@
 package utilities_test
 
 import (
-	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/Gartenschlaeger/strcli/utilities"
@@ -22,10 +22,8 @@ func TestClampI(t *testing.T) {
 		{2, 1, 3, 2},
 	}
 
-	for _, tc := range testCases {
-		testName := fmt.Sprintf("%v = %v - %v = %v", tc.value, tc.min, tc.max, tc.expectedResult)
-
-		t.Run(testName, func(t *testing.T) {
+	for i, tc := range testCases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			value := utilities.ClampI(tc.value, tc.min, tc.max)
 
 			assert.Equal(t, tc.expectedResult, value)

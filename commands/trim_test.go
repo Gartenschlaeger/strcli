@@ -1,6 +1,7 @@
 package commands_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/Gartenschlaeger/strcli/commands"
@@ -8,23 +9,22 @@ import (
 )
 
 type trimTestCase struct {
-	testName       string
-	input          string
-	cutset         string
-	expectedResult string
+	input    string
+	cutset   string
+	expected string
 }
 
 func TestTrimCommand(t *testing.T) {
 	testCases := []trimTestCase{
-		{"trims spefied character", "!!Test!!!", "!", "Test"},
-		{"trims spefied character", "  ..   Test .  ", ".", "  ..   Test .  "},
-		{"trims spefied character", "..   Test .", ".", "   Test "},
-		{"trims spefied characters", "¡¡¡Hello, Gophers!!!", "!¡", "Hello, Gophers"},
-		{"trims spefied character", "  \nTest..", ".", "  \nTest"},
+		{"!!Test!!!", "!", "Test"},
+		{"  ..   Test .  ", ".", "  ..   Test .  "},
+		{"..   Test .", ".", "   Test "},
+		{"¡¡¡Hello, Gophers!!!", "!¡", "Hello, Gophers"},
+		{"  \nTest..", ".", "  \nTest"},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.testName, func(t *testing.T) {
+	for i, tc := range testCases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			ctx := commands.NewContext(tc.input)
 
 			opt := commands.TrimCommandOptions{
@@ -33,7 +33,7 @@ func TestTrimCommand(t *testing.T) {
 
 			commands.TrimCommandHandler(ctx, &opt)
 
-			assert.Equal(t, tc.expectedResult, ctx.Result)
+			assert.Equal(t, tc.expected, ctx.Result)
 		})
 	}
 }

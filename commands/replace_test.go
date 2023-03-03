@@ -1,6 +1,7 @@
 package commands_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/Gartenschlaeger/strcli/commands"
@@ -8,61 +9,55 @@ import (
 )
 
 type replaceTestCase struct {
-	testName       string
-	input          string
-	oldValue       string
-	newValue       string
-	ignoreCasing   bool
-	replaceAll     bool
-	expectedResult string
+	input        string
+	oldValue     string
+	newValue     string
+	ignoreCasing bool
+	replaceAll   bool
+	expected     string
 }
 
 func defineTestCases() *[]replaceTestCase {
 	testCases := []replaceTestCase{
 		{
-			testName:       "replace t with _",
-			input:          "test 123",
-			oldValue:       "t",
-			newValue:       "_",
-			ignoreCasing:   false,
-			replaceAll:     false,
-			expectedResult: "_est 123",
+			input:        "test 123",
+			oldValue:     "t",
+			newValue:     "_",
+			ignoreCasing: false,
+			replaceAll:   false,
+			expected:     "_est 123",
 		},
 		{
-			testName:       "replace all t with _",
-			input:          "test 123",
-			oldValue:       "t",
-			newValue:       "_",
-			ignoreCasing:   false,
-			replaceAll:     true,
-			expectedResult: "_es_ 123",
+			input:        "test 123",
+			oldValue:     "t",
+			newValue:     "_",
+			ignoreCasing: false,
+			replaceAll:   true,
+			expected:     "_es_ 123",
 		},
 		{
-			testName:       "replace and ignore casing",
-			input:          "TEST 123",
-			oldValue:       "t",
-			newValue:       "_",
-			ignoreCasing:   true,
-			replaceAll:     false,
-			expectedResult: "_EST 123",
+			input:        "TEST 123",
+			oldValue:     "t",
+			newValue:     "_",
+			ignoreCasing: true,
+			replaceAll:   false,
+			expected:     "_EST 123",
 		},
 		{
-			testName:       "replace all and ignore casing",
-			input:          "Test 123",
-			oldValue:       "t",
-			newValue:       "_",
-			ignoreCasing:   true,
-			replaceAll:     true,
-			expectedResult: "_es_ 123",
+			input:        "Test 123",
+			oldValue:     "t",
+			newValue:     "_",
+			ignoreCasing: true,
+			replaceAll:   true,
+			expected:     "_es_ 123",
 		},
 		{
-			testName:       "replace all words",
-			input:          "Max,Mustermann,Musterweg 123,Musterhausen",
-			oldValue:       "Muster",
-			newValue:       "Test",
-			ignoreCasing:   false,
-			replaceAll:     true,
-			expectedResult: "Max,Testmann,Testweg 123,Testhausen",
+			input:        "Max,Mustermann,Musterweg 123,Musterhausen",
+			oldValue:     "Muster",
+			newValue:     "Test",
+			ignoreCasing: false,
+			replaceAll:   true,
+			expected:     "Max,Testmann,Testweg 123,Testhausen",
 		},
 	}
 
@@ -72,8 +67,8 @@ func defineTestCases() *[]replaceTestCase {
 func TestReplaceCommand(t *testing.T) {
 	testCases := *defineTestCases()
 
-	for _, tc := range testCases {
-		t.Run(tc.testName, func(t *testing.T) {
+	for i, tc := range testCases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			ctx := commands.NewContext(tc.input)
 
 			opt := commands.ReplaceCommandOptions{
@@ -85,7 +80,7 @@ func TestReplaceCommand(t *testing.T) {
 
 			commands.ReplaceCommandHandler(ctx, &opt)
 
-			assert.EqualValues(t, tc.expectedResult, ctx.Result)
+			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}
 }

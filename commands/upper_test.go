@@ -1,6 +1,7 @@
 package commands_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/Gartenschlaeger/strcli/commands"
@@ -8,25 +9,24 @@ import (
 )
 
 type upperTestCase struct {
-	testName       string
-	input          string
-	expectedResult string
+	input    string
+	expected string
 }
 
 func TestUpperCommand(t *testing.T) {
 	testCases := []upperTestCase{
-		{"mixed to upper case", "This is a test", "THIS IS A TEST"},
-		{"upper to upper case", "JOHN", "JOHN"},
-		{"lower to upper case", "test", "TEST"},
+		{"This is a test", "THIS IS A TEST"},
+		{"JOHN", "JOHN"},
+		{"test", "TEST"},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.testName, func(t *testing.T) {
+	for i, tc := range testCases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			ctx := commands.NewContext(tc.input)
 
 			commands.UpperCommandHandler(ctx)
 
-			assert.EqualValues(t, tc.expectedResult, ctx.Result)
+			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}
 }
