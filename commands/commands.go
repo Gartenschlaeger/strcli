@@ -7,11 +7,21 @@ import (
 
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 type CommandContext struct {
-	Input  string
-	Result string
+	Input     string
+	Result    string
+	Selection string
+}
+
+type CommandConfiguration struct {
+	name             string
+	description      string
+	hasSelectionFlag bool
+	handler          func(cmd *cobra.Command, args []string)
+	setupFlags       func(flags *pflag.FlagSet)
 }
 
 func NewContext(input string) *CommandContext {
@@ -47,27 +57,46 @@ func ValidateSelection(input string, selection string) (index int, length int) {
 	return i, l
 }
 
-func ManipulateSelection(ctx *CommandContext, selection string, callback func(input string) string) {
-	if selection == "" {
-		ctx.Result = callback(ctx.Input)
+func ProcessResult(ctx *CommandContext, handlerCallback func(input string) string) {
+	if ctx.Selection == "" {
+		ctx.Result = handlerCallback(ctx.Input)
 	}
 
-	startIndex, endIndex := ValidateSelection(ctx.Input, selection)
+	startIndex, endIndex := ValidateSelection(ctx.Input, ctx.Selection)
 
 	ss := ctx.Input[startIndex:endIndex]
-	sr := callback(ss)
+	sr := handlerCallback(ss)
 
 	ctx.Result = ctx.Input[:startIndex] + sr + ctx.Input[endIndex:]
 }
 
-var rootCmd *cobra.Command
+func SetupCommand(ctx *CommandContext, rootCmd *cobra.Command, cmd *CommandConfiguration) {
+	c := &cobra.Command{
+		Use:   cmd.name,
+		Short: cmd.description,
+		Run:   cmd.handler,
+	}
+
+	rootCmd.AddCommand(c)
+
+	if cmd.hasSelectionFlag {
+		flags := c.Flags()
+		flags.SetInterspersed(false)
+
+		if cmd.setupFlags != nil {
+			cmd.setupFlags(flags)
+		}
+
+		flags.StringVarP(&ctx.Selection, "selection", "s", "", "Character range selection")
+	}
+}
 
 func Execute() {
 	input := utilities.GetStandardInputString()
 
 	ctx := NewContext(input)
 
-	rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "str",
 		Short: "Performs general string operations",
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
@@ -75,15 +104,16 @@ func Execute() {
 		},
 	}
 
-	rootCmd.Version = "1.5.0"
+	rootCmd.Version = "1.6.0"
+
+	SetupCommand(ctx, rootCmd, NewLowerCommand(ctx))
+	SetupCommand(ctx, rootCmd, NewUpperCommand(ctx))
 
 	rootCmd.AddCommand(
 		NewFieldCommand(ctx),
 		NewReplaceCommand(ctx),
 		NewSubCommand(ctx),
 		NewRemoveCommand(ctx),
-		NewLowerCommand(ctx),
-		NewUpperCommand(ctx),
 		NewTrimCommand(ctx),
 		NewMd5Command(ctx),
 		NewSha1Command(ctx),
