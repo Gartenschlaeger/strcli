@@ -11,10 +11,17 @@ type SubCommandOptions struct {
 }
 
 func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) {
-	length := len(ctx.Input)
+	inputLength := len(ctx.Input)
 
-	startIndex := utilities.ClampI(opt.Index, 0, length)
-	endIndex := utilities.ClampI(opt.Index+opt.Length, startIndex, length)
+	var startIndex, endIndex int
+
+	if opt.Index < 0 {
+		startIndex = utilities.ClampI(inputLength+opt.Index, 0, inputLength)
+		endIndex = utilities.ClampI(startIndex+opt.Length, startIndex, inputLength)
+	} else {
+		startIndex = utilities.ClampI(opt.Index, 0, inputLength)
+		endIndex = utilities.ClampI(opt.Index+opt.Length, startIndex, inputLength)
+	}
 
 	ctx.Result = ctx.Input[startIndex:endIndex]
 }

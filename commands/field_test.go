@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type fieldTestSet struct {
+type fieldTestCase struct {
 	testName       string
 	input          string
 	index          int
@@ -17,7 +17,7 @@ type fieldTestSet struct {
 }
 
 func TestFieldCommand(t *testing.T) {
-	tests := []fieldTestSet{
+	testCases := []fieldTestCase{
 		{"index 0 returns first field", "Max Mustermann", 0, " ", false, "Max"},
 		{"index 1 returns second field", "Max Mustermann", 1, " ", false, "Mustermann"},
 		{"index -1 returns last field", "Max Mustermann", -1, " ", false, "Mustermann"},
@@ -25,19 +25,19 @@ func TestFieldCommand(t *testing.T) {
 		{"index overflow returns last field", "Max Mustermann", 10, " ", false, "Mustermann"},
 	}
 
-	for _, ts := range tests {
-		t.Run(ts.testName, func(t *testing.T) {
-			ctx := commands.NewContext(ts.input)
+	for _, tc := range testCases {
+		t.Run(tc.testName, func(t *testing.T) {
+			ctx := commands.NewContext(tc.input)
 
 			opt := commands.FieldCommandOptions{
-				Index:       ts.index,
-				Separator:   ts.separator,
-				IgnoreEmpty: ts.ignoreEmpty,
+				Index:       tc.index,
+				Separator:   tc.separator,
+				IgnoreEmpty: tc.ignoreEmpty,
 			}
 
 			commands.FieldCommandHandler(ctx, &opt)
 
-			assert.EqualValues(t, ts.expectedResult, ctx.Result)
+			assert.EqualValues(t, tc.expectedResult, ctx.Result)
 		})
 	}
 }
