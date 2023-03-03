@@ -1,8 +1,10 @@
 package commands
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/Gartenschlaeger/strcli/utilities"
@@ -93,6 +95,16 @@ func Execute() {
 		Short:         "Performs general string operations",
 		SilenceErrors: false,
 		SilenceUsage:  false,
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			if ctx.Selection != "" {
+				re, _ := regexp.Compile(`^-?\d+(?:,\d+)?$`)
+				if !re.MatchString(ctx.Selection) {
+					return errors.New("invalid value for --selection")
+				}
+			}
+
+			return nil
+		},
 	}
 
 	rootCmd.Version = "1.6.0"
