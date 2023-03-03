@@ -29,3 +29,19 @@ func ClampI(v, min, max int) int {
 
 	return v
 }
+
+func ClampGetTextRange(text string, index int, length int) (int, int) {
+	textLength := len(text)
+
+	var startIndex, endIndex int
+
+	if index < 0 {
+		startIndex = ClampI(textLength+index, 0, textLength)
+		endIndex = ClampI(startIndex+length, startIndex, textLength)
+	} else {
+		startIndex = ClampI(index, 0, textLength)
+		endIndex = ClampI(index+length, startIndex, textLength)
+	}
+
+	return startIndex, endIndex
+}

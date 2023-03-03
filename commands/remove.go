@@ -5,25 +5,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type SubCommandOptions struct {
+type RemoveCommandOptions struct {
 	Index  int
 	Length int
 }
 
-func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) {
+func RemoveCommandHandler(ctx *CommandContext, opt *RemoveCommandOptions) {
 	startIndex, endIndex := utilities.ClampGetTextRange(ctx.Input, opt.Index, opt.Length)
 
-	ctx.Result = ctx.Input[startIndex:endIndex]
+	ctx.Result = ctx.Input[0:startIndex] + ctx.Input[endIndex:]
 }
 
-func NewSubCommand(context *CommandContext) *cobra.Command {
-	opt := SubCommandOptions{}
+func NewRemoveCommand(ctx *CommandContext) *cobra.Command {
+	opt := RemoveCommandOptions{}
 
 	cmd := &cobra.Command{
-		Use:   "sub",
-		Short: "Returns a partition",
+		Use:   "remove",
+		Short: "Removes a partition",
 		Run: func(cmd *cobra.Command, args []string) {
-			SubCommandHandler(context, &opt)
+			RemoveCommandHandler(ctx, &opt)
 		},
 	}
 
