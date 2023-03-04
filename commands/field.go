@@ -1,8 +1,6 @@
 package commands
 
 import (
-	"strings"
-
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -14,29 +12,21 @@ type FieldCommandOptions struct {
 	IgnoreEmpty bool
 }
 
-func splitString(input string, separator string, removeEmptyFields bool) []string {
-	if removeEmptyFields {
-		return strings.FieldsFunc(input, func(r rune) bool {
-			return strings.ContainsRune(separator, r)
-		})
-	} else {
-		return strings.Split(input, separator)
-	}
-}
-
 func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
-	fields := splitString(ctx.Input, opt.Separator, opt.IgnoreEmpty)
+	fields := utilities.SplitString(ctx.Input, opt.Separator, opt.IgnoreEmpty)
 	fieldsCount := len(fields)
 
-	fieldIndex := opt.Index
+	if fieldsCount > 0 {
+		fieldIndex := opt.Index
 
-	if opt.Index < 0 {
-		fieldIndex = fieldsCount + opt.Index
+		if opt.Index < 0 {
+			fieldIndex = fieldsCount + opt.Index
+		}
+
+		fieldIndex = utilities.ClampI(fieldIndex, 0, fieldsCount-1)
+
+		ctx.Result = fields[fieldIndex]
 	}
-
-	fieldIndex = utilities.ClampI(fieldIndex, 0, fieldsCount-1)
-
-	ctx.Result = fields[fieldIndex]
 }
 
 func NewFieldCommand(ctx *CommandContext) *CommandConfiguration {
