@@ -1,7 +1,6 @@
 package utilities_test
 
 import (
-	"strconv"
 	"testing"
 
 	"github.com/Gartenschlaeger/strcli/utilities"
@@ -23,7 +22,7 @@ func TestClampI(t *testing.T) {
 	}
 
 	for i, tc := range testCases {
-		t.Run(strconv.Itoa(i), func(t *testing.T) {
+		t.Run(utilities.PadInt(i, 2), func(t *testing.T) {
 			value := utilities.ClampI(tc.value, tc.min, tc.max)
 
 			assert.Equal(t, tc.expectedResult, value)

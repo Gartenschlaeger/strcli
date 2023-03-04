@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -98,4 +99,74 @@ func StringEquals(s string, o string, ignoreCasing bool) bool {
 	}
 
 	return source == other
+}
+
+func ShiftString(s string, amount int, placeholder rune, repeat bool) string {
+	l := len(s)
+
+	if l == 0 && repeat {
+		return ""
+	}
+
+	if l == 0 {
+		l = amount
+	}
+
+	var shift int
+	if repeat {
+		shift = MinI(l, AbsI(amount))
+	} else {
+		shift = MaxI(l, AbsI(amount))
+	}
+
+	buffer := make([]rune, shift)
+	for i := range buffer {
+		buffer[i] = placeholder
+	}
+
+	var chars []rune
+	if len(s) == 0 {
+		chars = make([]rune, l)
+		for i := range buffer {
+			chars[i] = placeholder
+		}
+	} else {
+		chars = []rune(s)
+	}
+
+	for i := 0; i < l; i++ {
+		t := i + amount
+		n := ModI(t, shift)
+
+		shiftChar := true
+		if !repeat {
+			if t < 0 || t+1 > len(chars) {
+				shiftChar = false
+			}
+		}
+
+		if shiftChar {
+			buffer[n] = chars[i]
+		}
+	}
+
+	return string(buffer)
+}
+
+func PadString(s string, prefix rune, length int) string {
+	pl := length - len(s)
+	if pl <= 0 {
+		return s
+	}
+
+	pr := make([]rune, pl)
+	for i := 0; i < pl; i++ {
+		pr[i] = prefix
+	}
+
+	return string(pr) + s
+}
+
+func PadInt(i int, length int) string {
+	return PadString(strconv.Itoa(1+i), '0', length)
 }

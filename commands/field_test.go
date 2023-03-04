@@ -1,10 +1,10 @@
 package commands_test
 
 import (
-	"strconv"
 	"testing"
 
 	"github.com/Gartenschlaeger/strcli/commands"
+	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,7 +28,7 @@ func TestFieldCommand(t *testing.T) {
 	}
 
 	for i, tc := range testCases {
-		t.Run(strconv.Itoa(i), func(t *testing.T) {
+		t.Run(utilities.PadInt(i, 2), func(t *testing.T) {
 			ctx := commands.NewCommandContext(tc.input)
 
 			opt := commands.FieldCommandOptions{

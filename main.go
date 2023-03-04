@@ -70,6 +70,7 @@ func main() {
 		setupCommand(ctx, commands.NewShuffleCommand(ctx)),
 		setupCommand(ctx, commands.NewReverseCommand(ctx)),
 		setupCommand(ctx, commands.NewBase64Command(ctx)),
+		setupCommand(ctx, commands.NewShiftCommand(ctx)),
 	)
 
 	err := rootCmd.Execute()
