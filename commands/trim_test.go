@@ -16,6 +16,7 @@ type trimTestCase struct {
 
 func TestTrimCommand(t *testing.T) {
 	testCases := []trimTestCase{
+		{"", "", ""},
 		{"!!Test!!!", "!", "Test"},
 		{"  ..   Test .  ", ".", "  ..   Test .  "},
 		{"..   Test .", ".", "   Test "},

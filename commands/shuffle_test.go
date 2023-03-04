@@ -9,6 +9,15 @@ import (
 )
 
 func TestShuffleCommand(t *testing.T) {
+	t.Run("should not fail with empty input", func(t *testing.T) {
+		input := ""
+
+		ctx := commands.NewCommandContext(input)
+		commands.ShuffleCommandHandler(ctx)
+
+		assert.Equal(t, "", "")
+	})
+
 	t.Run("should have the same length", func(t *testing.T) {
 		input := "1234567890"
 

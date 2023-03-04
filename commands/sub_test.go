@@ -17,6 +17,7 @@ type subTestCase struct {
 
 func TestSubCommand(t *testing.T) {
 	testCases := []subTestCase{
+		{"", 0, 1, ""},
 		{"Some text", 0, 4, "Some"},
 		{"Some text", 5, 5, "text"},
 		{"Some text", -4, 4, "text"},

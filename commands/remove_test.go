@@ -17,6 +17,7 @@ type removeTestCase struct {
 
 func TestRemoveCommand(t *testing.T) {
 	testCases := []removeTestCase{
+		{"", 0, 1, ""},
 		{"Hello World", 0, 5, " World"},
 		{"Hello World", 5, 6, "Hello"},
 		{"Hello World", 5, 99, "Hello"},

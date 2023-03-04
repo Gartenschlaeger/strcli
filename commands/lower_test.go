@@ -16,6 +16,7 @@ type lowerTestCase struct {
 
 func TestLowerCommand(t *testing.T) {
 	testCases := []lowerTestCase{
+		{"", "", ""},
 		{"This is a test", "", "this is a test"},
 		{"JOHN", "", "john"},
 		{"test", "", "test"},
