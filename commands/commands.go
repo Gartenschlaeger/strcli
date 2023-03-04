@@ -107,7 +107,7 @@ func Execute() {
 		},
 	}
 
-	rootCmd.Version = "1.6.0"
+	rootCmd.Version = "1.6.1"
 
 	rootCmd.AddCommand(
 		setupCommand(ctx, NewFieldCommand(ctx)),
