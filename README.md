@@ -6,7 +6,7 @@ _Example:_
 
 ```sh
 # returns "Doe"
-echo "John Doe" | str field -i 1
+echo "John Doe" | str field -i1
 ```
 
 _`str` works with standard input/output, so you can easily perform multiple operations in a chain:_
