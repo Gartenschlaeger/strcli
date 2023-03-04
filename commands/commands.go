@@ -1,8 +1,6 @@
 package commands
 
 import (
-	"strings"
-
 	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -36,21 +34,6 @@ func NewCommandContext(input string) *CommandContext {
 	}
 }
 
-func parseSelection(selection string, input string) (index int, length int) {
-	p := strings.Split(selection, ":")
-	if len(p) == 2 {
-		return utilities.ParseInt(p[0], 0), utilities.ParseInt(p[1], 0)
-	}
-
-	f := utilities.ParseInt(p[0], 0)
-
-	if f < 0 {
-		return len(input) + f, -f
-	}
-
-	return 0, f
-}
-
 // Must be used in command handler in case the command configuration HasSelectionFlag is true
 func ProcessSelectionResult(ctx *CommandContext, handler SelectionCommandHandler) error {
 	if ctx.Selection == "" {
@@ -61,7 +44,7 @@ func ProcessSelectionResult(ctx *CommandContext, handler SelectionCommandHandler
 
 		ctx.Result = r
 	} else {
-		startIndex, endIndex := parseSelection(ctx.Selection, ctx.Input)
+		startIndex, endIndex := utilities.ParseSelection(ctx.Selection, ctx.Input)
 		startIndex, endIndex = utilities.ClampStringPartion(ctx.Input, startIndex, endIndex)
 
 		ss := ctx.Input[startIndex:endIndex]

@@ -17,6 +17,20 @@ func SplitString(s string, separator string, removeEmptyFields bool) []string {
 	}
 }
 
+func ParseSelection(selection string, input string) (index int, length int) {
+	p := strings.Split(selection, ":")
+	if len(p) == 2 {
+		return ParseInt(p[0], 0), ParseInt(p[1], 0)
+	}
+
+	f := ParseInt(p[0], 0)
+	if f < 0 {
+		return len(input) + f, -f
+	}
+
+	return 0, f
+}
+
 func ClampStringPartion(input string, index int, length int) (startIndex int, endIndex int) {
 	tl := len(input)
 
