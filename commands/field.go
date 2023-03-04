@@ -35,12 +35,12 @@ func NewFieldCommand(ctx *CommandContext) *CommandConfiguration {
 	opt := FieldCommandOptions{}
 
 	cmd := &CommandConfiguration{
-		name:        "field",
-		description: "Returns the field at the specified position",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "field",
+		Description: "Returns the field at the specified position",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return FieldCommandHandler(ctx, &opt)
 		},
-		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based field index")
 			flags.StringVarP(&opt.Separator, "separator", "s", " ", "Field separator")
 			flags.BoolVar(&opt.IgnoreEmpty, "ignore-empty", false, "Ignores empty fields")

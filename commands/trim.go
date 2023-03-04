@@ -21,12 +21,12 @@ func NewTrimCommand(ctx *CommandContext) *CommandConfiguration {
 	opt := TrimCommandOptions{}
 
 	cmd := &CommandConfiguration{
-		name:        "trim",
-		description: "Removes all leading and trailing characters from a set of specified characters",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "trim",
+		Description: "Removes all leading and trailing characters from a set of specified characters",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return TrimCommandHandler(ctx, &opt)
 		},
-		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.Cutset, "cutset", "c", "\n\r\t ", "Set of characters to be removed")
 		},
 	}

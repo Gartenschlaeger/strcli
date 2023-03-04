@@ -14,10 +14,10 @@ func UpperCommandHandler(ctx *CommandContext) error {
 
 func NewUpperCommand(ctx *CommandContext) *CommandConfiguration {
 	cmd := &CommandConfiguration{
-		name:             "upper",
-		description:      "Converts characters to upper case",
-		hasSelectionFlag: true,
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:             "upper",
+		Description:      "Converts characters to upper case",
+		HasSelectionFlag: true,
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return UpperCommandHandler(ctx)
 		},
 	}

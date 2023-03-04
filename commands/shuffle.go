@@ -13,9 +13,9 @@ func ShuffleCommandHandler(ctx *CommandContext) error {
 
 func NewShuffleCommand(ctx *CommandContext) *CommandConfiguration {
 	cmd := &CommandConfiguration{
-		name:        "shuffle",
-		description: "Shuffles the individual characters randomly",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "shuffle",
+		Description: "Shuffles the individual characters randomly",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return ShuffleCommandHandler(ctx)
 		},
 	}

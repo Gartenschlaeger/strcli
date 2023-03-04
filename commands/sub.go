@@ -23,12 +23,12 @@ func NewSubCommand(context *CommandContext) *CommandConfiguration {
 	opt := SubCommandOptions{}
 
 	cmd := &CommandConfiguration{
-		name:        "sub",
-		description: "Returns a partition",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "sub",
+		Description: "Returns a partition",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return SubCommandHandler(context, &opt)
 		},
-		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
 			flags.IntVarP(&opt.Length, "length", "l", 1, "Number of characters")
 		},

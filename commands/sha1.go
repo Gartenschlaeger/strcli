@@ -13,9 +13,9 @@ func ShaCommandHandler(ctx *CommandContext) error {
 
 func NewSha1Command(ctx *CommandContext) *CommandConfiguration {
 	cmd := &CommandConfiguration{
-		name:        "sha1",
-		description: "Calculates a SHA1 hash",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "sha1",
+		Description: "Calculates a SHA1 hash",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return ShaCommandHandler(ctx)
 		},
 	}
