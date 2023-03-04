@@ -87,3 +87,15 @@ func ReplaceString(s string, old string, new string, replaceAll bool, ignoreCase
 		return result
 	}
 }
+
+func StringEquals(s string, o string, ignoreCasing bool) bool {
+	source := s
+	other := o
+
+	if ignoreCasing {
+		source = strings.ToLower(source)
+		other = strings.ToLower(other)
+	}
+
+	return source == other
+}

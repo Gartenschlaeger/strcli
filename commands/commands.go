@@ -107,7 +107,7 @@ func Execute() {
 		},
 	}
 
-	rootCmd.Version = "1.6.1"
+	rootCmd.Version = "1.7.0"
 
 	rootCmd.AddCommand(
 		setupCommand(ctx, NewFieldCommand(ctx)),
@@ -121,6 +121,7 @@ func Execute() {
 		setupCommand(ctx, NewSha1Command(ctx)),
 		setupCommand(ctx, NewShuffleCommand(ctx)),
 		setupCommand(ctx, NewReverseCommand(ctx)),
+		setupCommand(ctx, NewBase64Command(ctx)),
 	)
 
 	err := rootCmd.Execute()
