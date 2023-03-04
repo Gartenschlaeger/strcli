@@ -17,10 +17,6 @@ func SplitString(s string, separator string, removeEmptyFields bool) []string {
 	}
 }
 
-func SubString(s string, index int, length int) string {
-	return s[index : index+length]
-}
-
 func ClampStringPartion(input string, index int, length int) (startIndex int, endIndex int) {
 	tl := len(input)
 
@@ -84,15 +80,11 @@ func ReplaceString(s string, old string, new string, replaceAll bool, ignoreCase
 }
 
 func StringEquals(s string, o string, ignoreCasing bool) bool {
-	source := s
-	other := o
-
 	if ignoreCasing {
-		source = strings.ToLower(source)
-		other = strings.ToLower(other)
+		return strings.EqualFold(s, o)
 	}
 
-	return source == other
+	return s == o
 }
 
 func ShiftString(s string, amount int, placeholder rune, repeat bool) string {
