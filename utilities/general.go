@@ -33,14 +33,3 @@ func ParseInt(s string, d int) int {
 
 	return i
 }
-
-func ClampI(v, min, max int) int {
-	if v < min {
-		return min
-	}
-	if v > max {
-		return max
-	}
-
-	return v
-}

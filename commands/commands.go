@@ -1,10 +1,6 @@
 package commands
 
 import (
-	"errors"
-	"fmt"
-	"os"
-	"regexp"
 	"strings"
 
 	"github.com/Gartenschlaeger/strcli/utilities"
@@ -19,12 +15,12 @@ type CommandContext struct {
 }
 
 type CommandConfiguration struct {
-	name             string
-	description      string
-	example          string
-	hasSelectionFlag bool
-	handler          func(cmd *cobra.Command, args []string) error
-	setup            func(cmd *cobra.Command, flags *pflag.FlagSet)
+	Name             string
+	Description      string
+	Example          string
+	HasSelectionFlag bool
+	Handler          func(cmd *cobra.Command, args []string) error
+	Setup            func(cmd *cobra.Command, flags *pflag.FlagSet)
 }
 
 type CommandHandler = func(input string) (string, error)
@@ -73,73 +69,4 @@ func ProcessResult(ctx *CommandContext, handler CommandHandler) error {
 	}
 
 	return nil
-}
-
-func setupCommand(ctx *CommandContext, cfg *CommandConfiguration) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:     cfg.name,
-		Short:   cfg.description,
-		Example: cfg.example,
-		RunE:    cfg.handler,
-	}
-
-	flags := cmd.Flags()
-	flags.SetInterspersed(false)
-
-	if cfg.setup != nil {
-		cfg.setup(cmd, flags)
-	}
-
-	if cfg.hasSelectionFlag {
-		flags.StringVarP(&ctx.Selection, "selection", "s", "", "Character range selection")
-	}
-
-	return cmd
-}
-
-func Execute() {
-	input := utilities.GetStandardInputString()
-
-	ctx := NewCommandContext(input)
-
-	rootCmd := &cobra.Command{
-		Use:           "str",
-		Short:         "Performs general string operations",
-		SilenceErrors: false,
-		SilenceUsage:  false,
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-			if ctx.Selection != "" {
-				re, _ := regexp.Compile(`^-?\d+(?::\d+)?$`)
-				if !re.MatchString(ctx.Selection) {
-					return errors.New("invalid value for --selection")
-				}
-			}
-
-			return nil
-		},
-	}
-
-	rootCmd.Version = "1.7.0"
-
-	rootCmd.AddCommand(
-		setupCommand(ctx, NewFieldCommand(ctx)),
-		setupCommand(ctx, NewReplaceCommand(ctx)),
-		setupCommand(ctx, NewSubCommand(ctx)),
-		setupCommand(ctx, NewRemoveCommand(ctx)),
-		setupCommand(ctx, NewLowerCommand(ctx)),
-		setupCommand(ctx, NewUpperCommand(ctx)),
-		setupCommand(ctx, NewTrimCommand(ctx)),
-		setupCommand(ctx, NewMd5Command(ctx)),
-		setupCommand(ctx, NewSha1Command(ctx)),
-		setupCommand(ctx, NewShuffleCommand(ctx)),
-		setupCommand(ctx, NewReverseCommand(ctx)),
-		setupCommand(ctx, NewBase64Command(ctx)),
-	)
-
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
-
-	fmt.Print(ctx.Result)
 }

@@ -23,12 +23,12 @@ func NewRemoveCommand(ctx *CommandContext) *CommandConfiguration {
 	opt := RemoveCommandOptions{}
 
 	cmd := &CommandConfiguration{
-		name:        "remove",
-		description: "Removes a partition",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "remove",
+		Description: "Removes a partition",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return RemoveCommandHandler(ctx, &opt)
 		},
-		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
 			flags.IntVarP(&opt.Length, "length", "l", 1, "Number of characters")
 		},

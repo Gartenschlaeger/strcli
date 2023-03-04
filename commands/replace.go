@@ -23,13 +23,13 @@ func NewReplaceCommand(ctx *CommandContext) *CommandConfiguration {
 	opt := ReplaceCommandOptions{}
 
 	cmd := &CommandConfiguration{
-		name:        "replace",
-		description: "Replaces occurrences with a new value",
-		example:     "str replace -o \" \" -n \"_\" -a",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "replace",
+		Description: "Replaces occurrences with a new value",
+		Example:     "str replace -o \" \" -n \"_\" -a",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return ReplaceCommandHandler(ctx, &opt)
 		},
-		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.OldValue, "old", "o", "", "Value to be replaced")
 			flags.StringVarP(&opt.NewValue, "new", "n", "", "New value to replace the old value")
 			flags.BoolVarP(&opt.ReplaceAll, "replace-all", "a", false, "Replace all occurrences instead of first one only")

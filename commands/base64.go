@@ -29,12 +29,12 @@ func NewBase64Command(ctx *CommandContext) *CommandConfiguration {
 	opt := &Base64CommandOptions{}
 
 	cmd := &CommandConfiguration{
-		name:        "base64",
-		description: "Encodes or decodes to Base64",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "base64",
+		Description: "Encodes or decodes to Base64",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return Base64CommandHandler(ctx, opt)
 		},
-		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
+		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.Mode, "mode", "m", "enc", "Specifies the mode (enc | dec)")
 		},
 	}

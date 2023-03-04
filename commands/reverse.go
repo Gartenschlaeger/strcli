@@ -17,9 +17,9 @@ func ReverseCommandHandler(ctx *CommandContext) error {
 
 func NewReverseCommand(ctx *CommandContext) *CommandConfiguration {
 	cmd := &CommandConfiguration{
-		name:        "reverse",
-		description: "Reverses the order of all characters",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "reverse",
+		Description: "Reverses the order of all characters",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return ReverseCommandHandler(ctx)
 		},
 	}

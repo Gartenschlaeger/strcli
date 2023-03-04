@@ -13,9 +13,9 @@ func Md5CommandHandler(ctx *CommandContext) error {
 
 func NewMd5Command(ctx *CommandContext) *CommandConfiguration {
 	cmd := &CommandConfiguration{
-		name:        "md5",
-		description: "Calculates a MD5 hash",
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:        "md5",
+		Description: "Calculates a MD5 hash",
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return Md5CommandHandler(ctx)
 		},
 	}

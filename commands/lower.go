@@ -14,10 +14,10 @@ func LowerCommandHandler(ctx *CommandContext) error {
 
 func NewLowerCommand(ctx *CommandContext) *CommandConfiguration {
 	cmd := &CommandConfiguration{
-		name:             "lower",
-		description:      "Converts all characters to lower case",
-		hasSelectionFlag: true,
-		handler: func(cmd *cobra.Command, args []string) error {
+		Name:             "lower",
+		Description:      "Converts all characters to lower case",
+		HasSelectionFlag: true,
+		Handler: func(cmd *cobra.Command, args []string) error {
 			return LowerCommandHandler(ctx)
 		},
 	}
