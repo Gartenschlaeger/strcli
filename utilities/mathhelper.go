@@ -40,6 +40,5 @@ func ModI(v int, m int) int {
 	if result < 0 {
 		result += m
 	}
-
 	return result
 }

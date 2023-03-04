@@ -104,17 +104,17 @@ func StringEquals(s string, o string, ignoreCasing bool) bool {
 func ShiftString(s string, amount int, placeholder rune, repeat bool) string {
 	l := len(s)
 
+	if l == 0 && !repeat {
+		return strings.Repeat(string(placeholder), MaxI(0, amount))
+	}
+
 	if l == 0 && repeat {
 		return ""
 	}
 
-	if l == 0 {
-		l = amount
-	}
-
 	var shift int
 	if repeat {
-		shift = MinI(l, AbsI(amount))
+		shift = l
 	} else {
 		shift = MaxI(l, AbsI(amount))
 	}
@@ -138,16 +138,13 @@ func ShiftString(s string, amount int, placeholder rune, repeat bool) string {
 		t := i + amount
 		n := ModI(t, shift)
 
-		shiftChar := true
 		if !repeat {
-			if t < 0 || t+1 > len(chars) {
-				shiftChar = false
+			if t < 0 || t >= len(chars) {
+				continue
 			}
 		}
 
-		if shiftChar {
-			buffer[n] = chars[i]
-		}
+		buffer[n] = chars[i]
 	}
 
 	return string(buffer)

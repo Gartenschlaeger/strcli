@@ -17,85 +17,8 @@ type shiftTestCase struct {
 }
 
 func TestShiftCommand(t *testing.T) {
-	testCases := []shiftTestCase{
-		{
-			input:       "",
-			amount:      1,
-			repeat:      true,
-			placeholder: " ",
-			expected:    "",
-		},
-		{
-			input:       "",
-			amount:      1,
-			repeat:      false,
-			placeholder: " ",
-			expected:    " ",
-		},
-		{
-			input:       "1234",
-			amount:      1,
-			repeat:      true,
-			placeholder: " ",
-			expected:    "4123",
-		},
-		{
-			input:       "1234",
-			amount:      3,
-			repeat:      true,
-			placeholder: " ",
-			expected:    "2341",
-		},
-		{
-			input:       "1234",
-			amount:      6,
-			repeat:      true,
-			placeholder: " ",
-			expected:    "3412",
-		},
-		{
-			input:       "1234",
-			amount:      -1,
-			repeat:      true,
-			placeholder: " ",
-			expected:    "2341",
-		},
-		{
-			input:       "1234",
-			amount:      -3,
-			repeat:      true,
-			placeholder: " ",
-			expected:    "4123",
-		},
-		{
-			input:       "1234",
-			amount:      1,
-			repeat:      false,
-			placeholder: "_",
-			expected:    "_123",
-		},
-		{
-			input:       "1234",
-			amount:      3,
-			repeat:      false,
-			placeholder: "_",
-			expected:    "___1",
-		},
-		{
-			input:       "1234",
-			amount:      -1,
-			repeat:      false,
-			placeholder: "_",
-			expected:    "234_",
-		},
-		{
-			input:       "1234",
-			amount:      -3,
-			repeat:      false,
-			placeholder: "_",
-			expected:    "4___",
-		},
-	}
+	// all test cases are already covered by TestStringShift()
+	testCases := []shiftTestCase{}
 
 	for i, tc := range testCases {
 		t.Run(utilities.PadInt(i, 2), func(t *testing.T) {
