@@ -16,6 +16,7 @@ type upperTestCase struct {
 
 func TestUpperCommand(t *testing.T) {
 	testCases := []upperTestCase{
+		{"", "", ""},
 		{"This is a test", "", "THIS IS A TEST"},
 		{"JOHN", "", "JOHN"},
 		{"test", "", "TEST"},

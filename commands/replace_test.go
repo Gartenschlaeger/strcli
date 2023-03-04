@@ -20,6 +20,14 @@ type replaceTestCase struct {
 func defineTestCases() *[]replaceTestCase {
 	testCases := []replaceTestCase{
 		{
+			input:        "",
+			oldValue:     "x",
+			newValue:     "y",
+			ignoreCasing: false,
+			replaceAll:   false,
+			expected:     "",
+		},
+		{
 			input:        "test 123",
 			oldValue:     "t",
 			newValue:     "_",

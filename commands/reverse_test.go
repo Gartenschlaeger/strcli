@@ -15,9 +15,9 @@ type reverseTestCase struct {
 
 func TestReverseCommand(t *testing.T) {
 	testCases := []reverseTestCase{
+		{"", ""},
 		{"123", "321"},
 		{"123456789", "987654321"},
-		{"", ""},
 	}
 
 	for i, tc := range testCases {
