@@ -6,9 +6,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func UpperCommandHandler(ctx *CommandContext) {
-	ProcessResult(ctx, func(input string) string {
-		return strings.ToUpper(input)
+func UpperCommandHandler(ctx *CommandContext) error {
+	return ProcessResult(ctx, func(input string) (string, error) {
+		return strings.ToUpper(input), nil
 	})
 }
 
@@ -18,9 +18,7 @@ func NewUpperCommand(ctx *CommandContext) *CommandConfiguration {
 		description:      "Converts characters to upper case",
 		hasSelectionFlag: true,
 		handler: func(cmd *cobra.Command, args []string) error {
-			UpperCommandHandler(ctx)
-
-			return nil
+			return UpperCommandHandler(ctx)
 		},
 	}
 

@@ -33,8 +33,9 @@ func TestSubCommand(t *testing.T) {
 				Length: tc.length,
 			}
 
-			commands.SubCommandHandler(ctx, &opt)
+			err := commands.SubCommandHandler(ctx, &opt)
 
+			assert.NoError(t, err)
 			assert.Equal(t, tc.expected, ctx.Result)
 		})
 	}

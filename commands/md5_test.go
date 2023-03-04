@@ -23,8 +23,9 @@ func TestMd5Command(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			ctx := commands.NewCommandContext(tc.input)
 
-			commands.Md5CommandHandler(ctx)
+			err := commands.Md5CommandHandler(ctx)
 
+			assert.NoError(t, err)
 			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}

@@ -30,8 +30,9 @@ func TestUpperCommand(t *testing.T) {
 			ctx := commands.NewCommandContext(tc.input)
 			ctx.Selection = tc.selection
 
-			commands.UpperCommandHandler(ctx)
+			err := commands.UpperCommandHandler(ctx)
 
+			assert.NoError(t, err)
 			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}

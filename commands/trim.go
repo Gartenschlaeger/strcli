@@ -11,8 +11,10 @@ type TrimCommandOptions struct {
 	Cutset string
 }
 
-func TrimCommandHandler(ctx *CommandContext, opt *TrimCommandOptions) {
+func TrimCommandHandler(ctx *CommandContext, opt *TrimCommandOptions) error {
 	ctx.Result = strings.Trim(ctx.Input, opt.Cutset)
+
+	return nil
 }
 
 func NewTrimCommand(ctx *CommandContext) *CommandConfiguration {
@@ -22,9 +24,7 @@ func NewTrimCommand(ctx *CommandContext) *CommandConfiguration {
 		name:        "trim",
 		description: "Removes all leading and trailing characters from a set of specified characters",
 		handler: func(cmd *cobra.Command, args []string) error {
-			TrimCommandHandler(ctx, &opt)
-
-			return nil
+			return TrimCommandHandler(ctx, &opt)
 		},
 		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.Cutset, "cutset", "c", "\n\r\t ", "Set of characters to be removed")

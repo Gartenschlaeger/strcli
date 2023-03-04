@@ -13,8 +13,10 @@ type ReplaceCommandOptions struct {
 	IgnoreCasing bool
 }
 
-func ReplaceCommandHandler(ctx *CommandContext, opt *ReplaceCommandOptions) {
+func ReplaceCommandHandler(ctx *CommandContext, opt *ReplaceCommandOptions) error {
 	ctx.Result = utilities.ReplaceString(ctx.Input, opt.OldValue, opt.NewValue, opt.ReplaceAll, opt.IgnoreCasing)
+
+	return nil
 }
 
 func NewReplaceCommand(ctx *CommandContext) *CommandConfiguration {
@@ -25,9 +27,7 @@ func NewReplaceCommand(ctx *CommandContext) *CommandConfiguration {
 		description: "Replaces occurrences with a new value",
 		example:     "str replace -o \" \" -n \"_\" -a",
 		handler: func(cmd *cobra.Command, args []string) error {
-			ReplaceCommandHandler(ctx, &opt)
-
-			return nil
+			return ReplaceCommandHandler(ctx, &opt)
 		},
 		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.OldValue, "old", "o", "", "Value to be replaced")

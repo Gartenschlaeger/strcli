@@ -28,8 +28,9 @@ func TestLowerCommand(t *testing.T) {
 			ctx := commands.NewCommandContext(tc.input)
 			ctx.Selection = tc.selection
 
-			commands.LowerCommandHandler(ctx)
+			err := commands.LowerCommandHandler(ctx)
 
+			assert.NoError(t, err)
 			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}

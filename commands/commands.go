@@ -27,6 +27,8 @@ type CommandConfiguration struct {
 	setup            func(cmd *cobra.Command, flags *pflag.FlagSet)
 }
 
+type ProcessHandler = func(input string) (string, error)
+
 func NewCommandContext(input string) *CommandContext {
 	return &CommandContext{
 		Input:  input,
@@ -49,18 +51,28 @@ func parseSelection(selection string, input string) (index int, length int) {
 	return 0, f
 }
 
-func ProcessResult(ctx *CommandContext, handlerCallback func(input string) string) {
+func ProcessResult(ctx *CommandContext, handlerCallback ProcessHandler) error {
 	if ctx.Selection == "" {
-		ctx.Result = handlerCallback(ctx.Input)
+		r, err := handlerCallback(ctx.Input)
+		if err != nil {
+			return err
+		}
+
+		ctx.Result = r
 	} else {
 		startIndex, endIndex := parseSelection(ctx.Selection, ctx.Input)
 		startIndex, endIndex = utilities.ClampStringPartion(ctx.Input, startIndex, endIndex)
 
 		ss := ctx.Input[startIndex:endIndex]
-		sr := handlerCallback(ss)
+		sr, err := handlerCallback(ss)
+		if err != nil {
+			return err
+		}
 
 		ctx.Result = ctx.Input[:startIndex] + sr + ctx.Input[endIndex:]
 	}
+
+	return nil
 }
 
 func setupCommand(ctx *CommandContext, cfg *CommandConfiguration) *cobra.Command {

@@ -86,8 +86,9 @@ func TestReplaceCommand(t *testing.T) {
 				IgnoreCasing: tc.ignoreCasing,
 			}
 
-			commands.ReplaceCommandHandler(ctx, &opt)
+			err := commands.ReplaceCommandHandler(ctx, &opt)
 
+			assert.NoError(t, err)
 			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}

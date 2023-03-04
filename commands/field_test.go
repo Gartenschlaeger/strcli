@@ -37,8 +37,9 @@ func TestFieldCommand(t *testing.T) {
 				IgnoreEmpty: tc.ignoreEmpty,
 			}
 
-			commands.FieldCommandHandler(ctx, &opt)
+			err := commands.FieldCommandHandler(ctx, &opt)
 
+			assert.NoError(t, err)
 			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}

@@ -32,8 +32,9 @@ func TestTrimCommand(t *testing.T) {
 				Cutset: tc.cutset,
 			}
 
-			commands.TrimCommandHandler(ctx, &opt)
+			err := commands.TrimCommandHandler(ctx, &opt)
 
+			assert.NoError(t, err)
 			assert.Equal(t, tc.expected, ctx.Result)
 		})
 	}

@@ -5,8 +5,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func ShaCommandHandler(ctx *CommandContext) {
+func ShaCommandHandler(ctx *CommandContext) error {
 	ctx.Result = utilities.GetSha1Hash(ctx.Input)
+
+	return nil
 }
 
 func NewSha1Command(ctx *CommandContext) *CommandConfiguration {
@@ -14,9 +16,7 @@ func NewSha1Command(ctx *CommandContext) *CommandConfiguration {
 		name:        "sha1",
 		description: "Calculates a SHA1 hash",
 		handler: func(cmd *cobra.Command, args []string) error {
-			ShaCommandHandler(ctx)
-
-			return nil
+			return ShaCommandHandler(ctx)
 		},
 	}
 

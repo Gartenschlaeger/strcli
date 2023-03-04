@@ -11,10 +11,12 @@ type SubCommandOptions struct {
 	Length int
 }
 
-func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) {
+func SubCommandHandler(ctx *CommandContext, opt *SubCommandOptions) error {
 	startIndex, endIndex := utilities.ClampStringPartion(ctx.Input, opt.Index, opt.Length)
 
 	ctx.Result = ctx.Input[startIndex:endIndex]
+
+	return nil
 }
 
 func NewSubCommand(context *CommandContext) *CommandConfiguration {
@@ -24,9 +26,7 @@ func NewSubCommand(context *CommandContext) *CommandConfiguration {
 		name:        "sub",
 		description: "Returns a partition",
 		handler: func(cmd *cobra.Command, args []string) error {
-			SubCommandHandler(context, &opt)
-
-			return nil
+			return SubCommandHandler(context, &opt)
 		},
 		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")

@@ -24,8 +24,9 @@ func TestReverseCommand(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			ctx := commands.NewCommandContext(tc.input)
 
-			commands.ReverseCommandHandler(ctx)
+			err := commands.ReverseCommandHandler(ctx)
 
+			assert.NoError(t, err)
 			assert.Equal(t, tc.expected, ctx.Result)
 		})
 	}

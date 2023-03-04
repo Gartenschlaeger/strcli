@@ -12,7 +12,7 @@ type FieldCommandOptions struct {
 	IgnoreEmpty bool
 }
 
-func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
+func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) error {
 	fields := utilities.SplitString(ctx.Input, opt.Separator, opt.IgnoreEmpty)
 	fieldsCount := len(fields)
 
@@ -27,6 +27,8 @@ func FieldCommandHandler(ctx *CommandContext, opt *FieldCommandOptions) {
 
 		ctx.Result = fields[fieldIndex]
 	}
+
+	return nil
 }
 
 func NewFieldCommand(ctx *CommandContext) *CommandConfiguration {
@@ -36,9 +38,7 @@ func NewFieldCommand(ctx *CommandContext) *CommandConfiguration {
 		name:        "field",
 		description: "Returns the field at the specified position",
 		handler: func(cmd *cobra.Command, args []string) error {
-			FieldCommandHandler(ctx, &opt)
-
-			return nil
+			return FieldCommandHandler(ctx, &opt)
 		},
 		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based field index")

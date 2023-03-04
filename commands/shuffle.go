@@ -5,8 +5,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func ShuffleCommandHandler(ctx *CommandContext) {
+func ShuffleCommandHandler(ctx *CommandContext) error {
 	ctx.Result = utilities.ShuffleString(ctx.Input)
+
+	return nil
 }
 
 func NewShuffleCommand(ctx *CommandContext) *CommandConfiguration {
@@ -14,9 +16,7 @@ func NewShuffleCommand(ctx *CommandContext) *CommandConfiguration {
 		name:        "shuffle",
 		description: "Shuffles the individual characters randomly",
 		handler: func(cmd *cobra.Command, args []string) error {
-			ShuffleCommandHandler(ctx)
-
-			return nil
+			return ShuffleCommandHandler(ctx)
 		},
 	}
 

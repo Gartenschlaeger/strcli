@@ -34,8 +34,9 @@ func TestRemoveCommand(t *testing.T) {
 				Length: tc.length,
 			}
 
-			commands.RemoveCommandHandler(ctx, &opt)
+			err := commands.RemoveCommandHandler(ctx, &opt)
 
+			assert.NoError(t, err)
 			assert.Equal(t, tc.expected, ctx.Result)
 		})
 	}

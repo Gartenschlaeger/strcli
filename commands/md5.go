@@ -5,8 +5,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Md5CommandHandler(ctx *CommandContext) {
+func Md5CommandHandler(ctx *CommandContext) error {
 	ctx.Result = utilities.GetMd5Hash(ctx.Input)
+
+	return nil
 }
 
 func NewMd5Command(ctx *CommandContext) *CommandConfiguration {
@@ -14,9 +16,7 @@ func NewMd5Command(ctx *CommandContext) *CommandConfiguration {
 		name:        "md5",
 		description: "Calculates a MD5 hash",
 		handler: func(cmd *cobra.Command, args []string) error {
-			Md5CommandHandler(ctx)
-
-			return nil
+			return Md5CommandHandler(ctx)
 		},
 	}
 

@@ -13,8 +13,9 @@ func TestShuffleCommand(t *testing.T) {
 		input := ""
 
 		ctx := commands.NewCommandContext(input)
-		commands.ShuffleCommandHandler(ctx)
+		err := commands.ShuffleCommandHandler(ctx)
 
+		assert.NoError(t, err)
 		assert.Equal(t, "", "")
 	})
 
@@ -22,8 +23,9 @@ func TestShuffleCommand(t *testing.T) {
 		input := "1234567890"
 
 		ctx := commands.NewCommandContext(input)
-		commands.ShuffleCommandHandler(ctx)
+		err := commands.ShuffleCommandHandler(ctx)
 
+		assert.NoError(t, err)
 		assert.Equal(t, len(input), len(ctx.Result))
 	})
 
@@ -31,7 +33,9 @@ func TestShuffleCommand(t *testing.T) {
 		input := "1234567890"
 
 		ctx := commands.NewCommandContext(input)
-		commands.ShuffleCommandHandler(ctx)
+		err := commands.ShuffleCommandHandler(ctx)
+
+		assert.NoError(t, err)
 
 		for _, r := range input {
 			assert.True(t, strings.ContainsRune(ctx.Result, r))

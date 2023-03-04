@@ -23,8 +23,9 @@ func TestSha1Command(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			ctx := commands.NewCommandContext(tc.input)
 
-			commands.ShaCommandHandler(ctx)
+			err := commands.ShaCommandHandler(ctx)
 
+			assert.NoError(t, err)
 			assert.EqualValues(t, tc.expected, ctx.Result)
 		})
 	}

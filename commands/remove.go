@@ -11,10 +11,12 @@ type RemoveCommandOptions struct {
 	Length int
 }
 
-func RemoveCommandHandler(ctx *CommandContext, opt *RemoveCommandOptions) {
+func RemoveCommandHandler(ctx *CommandContext, opt *RemoveCommandOptions) error {
 	startIndex, endIndex := utilities.ClampStringPartion(ctx.Input, opt.Index, opt.Length)
 
 	ctx.Result = ctx.Input[0:startIndex] + ctx.Input[endIndex:]
+
+	return nil
 }
 
 func NewRemoveCommand(ctx *CommandContext) *CommandConfiguration {
@@ -24,9 +26,7 @@ func NewRemoveCommand(ctx *CommandContext) *CommandConfiguration {
 		name:        "remove",
 		description: "Removes a partition",
 		handler: func(cmd *cobra.Command, args []string) error {
-			RemoveCommandHandler(ctx, &opt)
-
-			return nil
+			return RemoveCommandHandler(ctx, &opt)
 		},
 		setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.IntVarP(&opt.Index, "index", "i", 0, "Zero based index of the first character")
