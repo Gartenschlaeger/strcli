@@ -1,11 +1,16 @@
 package utilities
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
 )
+
+func DebugValue(v interface{}) {
+	fmt.Printf("%+v\n", v)
+}
 
 func GetStandardInputString() string {
 	fi, _ := os.Stdin.Stat()
@@ -38,20 +43,4 @@ func ClampI(v, min, max int) int {
 	}
 
 	return v
-}
-
-func ClampStringPartion(input string, index int, length int) (startIndex int, endIndex int) {
-	tl := len(input)
-
-	if index < 0 {
-		// x characters from end
-		startIndex = ClampI(tl+index, 0, tl)
-		endIndex = ClampI(startIndex+length, startIndex, tl)
-	} else {
-		// x characters from start
-		startIndex = ClampI(index, 0, tl)
-		endIndex = ClampI(startIndex+length, startIndex, tl)
-	}
-
-	return startIndex, endIndex
 }

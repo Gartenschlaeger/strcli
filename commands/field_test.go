@@ -18,6 +18,8 @@ type fieldTestCase struct {
 
 func TestFieldCommand(t *testing.T) {
 	testCases := []fieldTestCase{
+		{"", 0, " ", false, ""},
+		{"", 0, " ", true, ""},
 		{"Max Mustermann", 0, " ", false, "Max"},
 		{"Max Mustermann", 1, " ", false, "Mustermann"},
 		{"Max Mustermann", -1, " ", false, "Mustermann"},
