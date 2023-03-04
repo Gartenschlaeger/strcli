@@ -7,7 +7,7 @@ import (
 )
 
 func LowerCommandHandler(ctx *CommandContext) error {
-	return ProcessResult(ctx, func(input string) (string, error) {
+	return ProcessSelectionResult(ctx, func(input string) (string, error) {
 		return strings.ToLower(input), nil
 	})
 }

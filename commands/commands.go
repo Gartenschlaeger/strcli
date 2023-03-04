@@ -8,12 +8,14 @@ import (
 	"github.com/spf13/pflag"
 )
 
+// Represents the execution context for sub commands
 type CommandContext struct {
 	Input     string
 	Result    string
 	Selection string
 }
 
+// Represents the command configuration used to setup a sub command
 type CommandConfiguration struct {
 	Name             string
 	Description      string
@@ -23,8 +25,10 @@ type CommandConfiguration struct {
 	Setup            func(cmd *cobra.Command, flags *pflag.FlagSet)
 }
 
-type CommandHandler = func(input string) (string, error)
+// Command handler used by ProcessSelectionResult
+type SelectionCommandHandler = func(input string) (string, error)
 
+// Returns a new CommandContext object
 func NewCommandContext(input string) *CommandContext {
 	return &CommandContext{
 		Input:  input,
@@ -47,7 +51,8 @@ func parseSelection(selection string, input string) (index int, length int) {
 	return 0, f
 }
 
-func ProcessResult(ctx *CommandContext, handler CommandHandler) error {
+// Must be used in command handler in case the command configuration HasSelectionFlag is true
+func ProcessSelectionResult(ctx *CommandContext, handler SelectionCommandHandler) error {
 	if ctx.Selection == "" {
 		r, err := handler(ctx.Input)
 		if err != nil {
