@@ -7,6 +7,29 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type padStringTestCase struct {
+	input    string
+	prefix   rune
+	length   int
+	expected string
+}
+
+func TestPadString(t *testing.T) {
+	testCases := []padStringTestCase{
+		{"1", '0', 5, "00001"},
+		{"10", '0', 3, "010"},
+		{"10", '.', 10, "........10"},
+	}
+
+	for i, tc := range testCases {
+		t.Run(utilities.PadInt(i, 2), func(t *testing.T) {
+			r := utilities.PadString(tc.input, tc.prefix, tc.length)
+
+			assert.EqualValues(t, tc.expected, r)
+		})
+	}
+}
+
 type stringShiftTestCase struct {
 	input       string
 	amount      int
