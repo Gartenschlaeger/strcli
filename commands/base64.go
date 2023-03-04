@@ -30,7 +30,7 @@ func NewBase64Command(ctx *CommandContext) *CommandConfiguration {
 
 	cmd := &CommandConfiguration{
 		name:        "base64",
-		description: "Encodes or decodes Base64",
+		description: "Encodes or decodes to Base64",
 		handler: func(cmd *cobra.Command, args []string) error {
 			return Base64CommandHandler(ctx, opt)
 		},
