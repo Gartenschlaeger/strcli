@@ -1,6 +1,10 @@
 package utilities
 
-import "strings"
+import (
+	"math/rand"
+	"strings"
+	"time"
+)
 
 func SplitString(s string, separator string, removeEmptyFields bool) []string {
 	if removeEmptyFields {
@@ -30,4 +34,56 @@ func ClampStringPartion(input string, index int, length int) (startIndex int, en
 	}
 
 	return startIndex, endIndex
+}
+
+func ShuffleString(s string) string {
+	rand.Seed(time.Now().UnixNano())
+
+	runes := []rune(s)
+	for i := len(runes) - 1; i > 0; i-- {
+		j := rand.Intn(i + 1)
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+
+	return string(runes)
+}
+
+func replaceStringPortion(input string, index int, oldValue string) string {
+	if index+len(oldValue) > len(input) {
+		return input
+	}
+
+	return input[:index] + oldValue + input[index+len(oldValue):]
+}
+
+func ReplaceString(s string, old string, new string, replaceAll bool, ignoreCase bool) string {
+	if !ignoreCase {
+		if replaceAll {
+			return strings.ReplaceAll(s, old, new)
+		} else {
+			return strings.Replace(s, old, new, 1)
+		}
+	} else {
+		inputLower := strings.ToLower(s)
+		oldValueLower := strings.ToLower(old)
+
+		findIndicees := []int{}
+		for i := 0; i < len(inputLower); i++ {
+			if strings.HasPrefix(inputLower[i:], oldValueLower) {
+				findIndicees = append(findIndicees, i)
+				i += len(oldValueLower)
+
+				if !replaceAll {
+					break
+				}
+			}
+		}
+
+		result := s
+		for _, v := range findIndicees {
+			result = replaceStringPortion(result, v, new)
+		}
+
+		return result
+	}
 }

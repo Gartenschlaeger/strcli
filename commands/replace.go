@@ -1,8 +1,7 @@
 package commands
 
 import (
-	"strings"
-
+	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -14,44 +13,8 @@ type ReplaceCommandOptions struct {
 	IgnoreCasing bool
 }
 
-func replaceStringPortion(input string, index int, oldValue string) string {
-	if index+len(oldValue) > len(input) {
-		return input
-	}
-
-	return input[:index] + oldValue + input[index+len(oldValue):]
-}
-
 func ReplaceCommandHandler(ctx *CommandContext, opt *ReplaceCommandOptions) {
-	if !opt.IgnoreCasing {
-		if opt.ReplaceAll {
-			ctx.Result = strings.ReplaceAll(ctx.Input, opt.OldValue, opt.NewValue)
-		} else {
-			ctx.Result = strings.Replace(ctx.Input, opt.OldValue, opt.NewValue, 1)
-		}
-	} else {
-		inputLower := strings.ToLower(ctx.Input)
-		oldValueLower := strings.ToLower(opt.OldValue)
-
-		findIndicees := []int{}
-		for i := 0; i < len(inputLower); i++ {
-			if strings.HasPrefix(inputLower[i:], oldValueLower) {
-				findIndicees = append(findIndicees, i)
-				i += len(oldValueLower)
-
-				if !opt.ReplaceAll {
-					break
-				}
-			}
-		}
-
-		result := ctx.Input
-		for _, v := range findIndicees {
-			result = replaceStringPortion(result, v, opt.NewValue)
-		}
-
-		ctx.Result = result
-	}
+	ctx.Result = utilities.ReplaceString(ctx.Input, opt.OldValue, opt.NewValue, opt.ReplaceAll, opt.IgnoreCasing)
 }
 
 func NewReplaceCommand(ctx *CommandContext) *CommandConfiguration {

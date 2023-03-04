@@ -1,19 +1,12 @@
 package commands
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-
+	"github.com/Gartenschlaeger/strcli/utilities"
 	"github.com/spf13/cobra"
 )
 
-func getMD5Hash(text string) string {
-	hash := md5.Sum([]byte(text))
-	return hex.EncodeToString(hash[:])
-}
-
 func Md5CommandHandler(ctx *CommandContext) {
-	ctx.Result = getMD5Hash(ctx.Input)
+	ctx.Result = utilities.GetMd5Hash(ctx.Input)
 }
 
 func NewMd5Command(ctx *CommandContext) *CommandConfiguration {
