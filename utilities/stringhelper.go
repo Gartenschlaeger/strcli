@@ -49,29 +49,14 @@ func ShuffleString(s string) string {
 	return string(runes)
 }
 
-func replaceStringPortion(input string, index int, oldValue string) string {
-	if index+len(oldValue) > len(input) {
-		return input
-	}
-
-	return input[:index] + oldValue + input[index+len(oldValue):]
-}
-
 func ReplaceString(s string, old string, new string, replaceAll bool, ignoreCase bool) string {
-	if !ignoreCase {
-		if replaceAll {
-			return strings.ReplaceAll(s, old, new)
-		} else {
-			return strings.Replace(s, old, new, 1)
-		}
-	} else {
-		inputLower := strings.ToLower(s)
+	if ignoreCase {
 		oldValueLower := strings.ToLower(old)
 
-		findIndicees := []int{}
-		for i := 0; i < len(inputLower); i++ {
-			if strings.HasPrefix(inputLower[i:], oldValueLower) {
-				findIndicees = append(findIndicees, i)
+		matchIndicees := make([]int, 0, strings.Count(strings.ToLower(s), oldValueLower))
+		for i := 0; i < len(s); i++ {
+			if strings.HasPrefix(strings.ToLower(s[i:]), oldValueLower) {
+				matchIndicees = append(matchIndicees, i)
 				i += len(oldValueLower)
 
 				if !replaceAll {
@@ -80,12 +65,21 @@ func ReplaceString(s string, old string, new string, replaceAll bool, ignoreCase
 			}
 		}
 
-		result := s
-		for _, v := range findIndicees {
-			result = replaceStringPortion(result, v, new)
+		result := []rune(s)
+		for i := len(matchIndicees) - 1; i >= 0; i-- {
+			prefix := result[:matchIndicees[i]]
+			newRunes := []rune(new)
+			suffix := result[matchIndicees[i]+len(old):]
+			result = append(prefix, append(newRunes, suffix...)...)
 		}
 
-		return result
+		return string(result)
+	} else {
+		if replaceAll {
+			return strings.ReplaceAll(s, old, new)
+		} else {
+			return strings.Replace(s, old, new, 1)
+		}
 	}
 }
 
@@ -137,17 +131,10 @@ func ShiftString(s string, amount int, placeholder rune, repeat bool) string {
 }
 
 func PadString(s string, prefix rune, length int) string {
-	pl := length - len(s)
-	if pl <= 0 {
+	if len(s) >= length {
 		return s
 	}
-
-	pr := make([]rune, pl)
-	for i := 0; i < pl; i++ {
-		pr[i] = prefix
-	}
-
-	return string(pr) + s
+	return strings.Repeat(string(prefix), length-len(s)) + s
 }
 
 func PadInt(i int, length int) string {
