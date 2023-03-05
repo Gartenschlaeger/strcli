@@ -22,7 +22,7 @@ func NewTrimCommand(ctx *CommandContext) *CommandConfiguration {
 
 	cmd := &CommandConfiguration{
 		Name:        "trim",
-		Description: "Removes all leading and trailing characters from a set of specified characters",
+		Description: "Removes all leading and trailing characters",
 		Handler: func(cmd *cobra.Command, args []string) error {
 			return TrimCommandHandler(ctx, &opt)
 		},
