@@ -20,7 +20,7 @@ Regular expressions are also supported:
 
 ```sh
 # returns 2023
-echo "2023-10-11\thttps://some-url.com\tStatus Code" | str regex -p"(\d{4})-(\d{2})-(\d{2})" -g1
+echo "2023-10-11" | str regex -p"(\d{4})-(\d{2})-(\d{2})" -g1
 ```
 
 ```sh
