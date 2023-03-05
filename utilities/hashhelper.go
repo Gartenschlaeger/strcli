@@ -3,19 +3,31 @@ package utilities
 import (
 	"crypto/md5"
 	"crypto/sha1"
+	"crypto/sha256"
+	"crypto/sha512"
 	"encoding/base64"
 	"encoding/hex"
 )
 
-func GetSha1Hash(s string) string {
-	h := sha1.New()
-	h.Write([]byte(s))
-	bs := h.Sum(nil)
+func GetSHA1Hash(input string) string {
+	hash := sha1.Sum([]byte(input))
 
-	return hex.EncodeToString(bs)
+	return hex.EncodeToString(hash[:])
 }
 
-func GetMd5Hash(s string) string {
+func GetSHA256Hash(s string) string {
+	hash := sha256.Sum256([]byte(s))
+
+	return hex.EncodeToString(hash[:])
+}
+
+func GetSHA512Hash(input string) string {
+	hash := sha512.Sum512([]byte(input))
+
+	return hex.EncodeToString(hash[:])
+}
+
+func GetMD5Hash(s string) string {
 	hash := md5.Sum([]byte(s))
 	return hex.EncodeToString(hash[:])
 }

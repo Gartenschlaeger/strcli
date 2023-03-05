@@ -55,7 +55,7 @@ func main() {
 		},
 	}
 
-	rootCmd.Version = "1.9.0"
+	rootCmd.Version = "1.10.0"
 
 	rootCmd.AddCommand(
 		setupCommand(ctx, commands.NewFieldCommand(ctx)),
@@ -65,8 +65,7 @@ func main() {
 		setupCommand(ctx, commands.NewLowerCommand(ctx)),
 		setupCommand(ctx, commands.NewUpperCommand(ctx)),
 		setupCommand(ctx, commands.NewTrimCommand(ctx)),
-		setupCommand(ctx, commands.NewMd5Command(ctx)),
-		setupCommand(ctx, commands.NewSha1Command(ctx)),
+		setupCommand(ctx, commands.NewHashCommand(ctx)),
 		setupCommand(ctx, commands.NewShuffleCommand(ctx)),
 		setupCommand(ctx, commands.NewReverseCommand(ctx)),
 		setupCommand(ctx, commands.NewBase64Command(ctx)),
