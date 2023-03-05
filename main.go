@@ -55,7 +55,7 @@ func main() {
 		},
 	}
 
-	rootCmd.Version = "1.8.0"
+	rootCmd.Version = "1.9.0"
 
 	rootCmd.AddCommand(
 		setupCommand(ctx, commands.NewFieldCommand(ctx)),
@@ -71,6 +71,7 @@ func main() {
 		setupCommand(ctx, commands.NewReverseCommand(ctx)),
 		setupCommand(ctx, commands.NewBase64Command(ctx)),
 		setupCommand(ctx, commands.NewShiftCommand(ctx)),
+		setupCommand(ctx, commands.NewRegexCommand(ctx)),
 	)
 
 	err := rootCmd.Execute()
