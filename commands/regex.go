@@ -9,6 +9,7 @@ import (
 
 type RegexCommandOptions struct {
 	Pattern string
+	Replace string
 	Group   int
 }
 
@@ -18,13 +19,22 @@ func RegexCommandHandler(ctx *CommandContext, opt *RegexCommandOptions) error {
 		return err
 	}
 
-	r := re.FindStringSubmatch(ctx.Input)
+	if opt.Replace != "" {
+		// use replace pattern
+		r := re.ReplaceAllString(ctx.Input, opt.Replace)
 
-	l := len(r)
-	if l > opt.Group {
-		ctx.Result = r[opt.Group]
+		ctx.Result = r
 	} else {
-		ctx.Result = ""
+		// use search pattern
+		r := re.FindStringSubmatch(ctx.Input)
+
+		l := len(r)
+		if l > opt.Group {
+			ctx.Result = r[opt.Group]
+		} else {
+			// if the given group index is out or range, return an empty result
+			ctx.Result = ""
+		}
 	}
 
 	return nil
@@ -41,7 +51,8 @@ func NewRegexCommand(ctx *CommandContext) *CommandConfiguration {
 		},
 		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
 			flags.StringVarP(&opt.Pattern, "pattern", "p", "", "Regular expression pattern")
-			flags.IntVarP(&opt.Group, "group", "g", 0, "The group to be returns (if pattern contains groups)")
+			flags.IntVarP(&opt.Group, "group", "g", 0, "The group to be returned")
+			flags.StringVarP(&opt.Replace, "replace", "r", "", "Replace pattern")
 
 			cmd.MarkFlagRequired("pattern")
 		},
