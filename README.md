@@ -16,6 +16,18 @@ _`str` works with standard input/output, so you can easily perform multiple oper
 echo "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" | str shuffle | str sub -l10
 ```
 
+Regular expressions are also supported:
+
+```sh
+# returns 2023
+echo "2023-10-11\thttps://some-url.com\tStatus Code" | str regex -p"(\d{4})-(\d{2})-(\d{2})" -g1
+```
+
+```sh
+# returns He__o wor_d!
+echo "Hello world\!" | str regex -p"l" -r"_"
+```
+
 # Installation
 
 Currently the app has not been added to any package manager.
