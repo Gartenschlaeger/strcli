@@ -41,7 +41,7 @@ func NewHashCommand(ctx *CommandContext) *CommandConfiguration {
 			return HashCommandHandler(ctx, opt)
 		},
 		Setup: func(cmd *cobra.Command, flags *pflag.FlagSet) {
-			flags.StringVarP(&opt.Mode, "mode", "m", "", "")
+			flags.StringVarP(&opt.Mode, "mode", "m", "", "Hash mode (MD5, SHA1, SHA256, SHA512)")
 
 			cmd.MarkFlagRequired("mode")
 		},
