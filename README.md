@@ -13,7 +13,7 @@ _`str` works with standard input/output, so you can easily perform multiple oper
 
 ```sh
 # returns a random string with 10 characters
-echo "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" | str shuffle | str sub -l10
+echo "abcdefghijklmnopqrstuvwxyz0123456789" | str shuffle | str sub -l10
 ```
 
 Regular expressions are also supported:
