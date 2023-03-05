@@ -9,8 +9,13 @@ import (
 	"encoding/hex"
 )
 
-func GetSHA1Hash(input string) string {
-	hash := sha1.Sum([]byte(input))
+func GetMD5Hash(s string) string {
+	hash := md5.Sum([]byte(s))
+	return hex.EncodeToString(hash[:])
+}
+
+func GetSHA1Hash(s string) string {
+	hash := sha1.Sum([]byte(s))
 
 	return hex.EncodeToString(hash[:])
 }
@@ -21,14 +26,9 @@ func GetSHA256Hash(s string) string {
 	return hex.EncodeToString(hash[:])
 }
 
-func GetSHA512Hash(input string) string {
-	hash := sha512.Sum512([]byte(input))
+func GetSHA512Hash(s string) string {
+	hash := sha512.Sum512([]byte(s))
 
-	return hex.EncodeToString(hash[:])
-}
-
-func GetMD5Hash(s string) string {
-	hash := md5.Sum([]byte(s))
 	return hex.EncodeToString(hash[:])
 }
 

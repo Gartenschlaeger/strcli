@@ -7,25 +7,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type clampITestCase struct {
-	value          int
-	min            int
-	max            int
-	expectedResult int
+type parseIntTestCase struct {
+	s        string
+	d        int
+	expected int
 }
 
-func TestClampI(t *testing.T) {
-	testCases := []clampITestCase{
-		{10, 1, 3, 3},
-		{0, 1, 3, 1},
-		{2, 1, 3, 2},
+func TestParseInt(t *testing.T) {
+	testCases := []parseIntTestCase{
+		{"0", 0, 0},
+		{"1", 0, 1},
+		{"_", 0, 0},
 	}
 
 	for i, tc := range testCases {
 		t.Run(utilities.PadInt(i, 2), func(t *testing.T) {
-			value := utilities.ClampI(tc.value, tc.min, tc.max)
+			r := utilities.ParseInt(tc.s, tc.d)
 
-			assert.Equal(t, tc.expectedResult, value)
+			assert.Equal(t, tc.expected, r)
 		})
 	}
 }

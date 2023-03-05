@@ -4,6 +4,9 @@ test:
 testv:
 	go test -v ./...
 
+testc:
+	go test -cover ./...
+
 build:
 	go build -o dist/str
 
