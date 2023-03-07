@@ -17,7 +17,7 @@ func GetStandardInputString() string {
 	if (fi.Mode() & os.ModeCharDevice) == 0 {
 		bytes, _ := ioutil.ReadAll(os.Stdin)
 		str := string(bytes)
-		str = strings.Trim(str, "\n ")
+		str = strings.Trim(str, "\n\r ")
 
 		return str
 	}
