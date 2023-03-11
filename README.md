@@ -1,5 +1,7 @@
 # CLI tool str
 
+[![Build](https://github.com/Gartenschlaeger/strcli/actions/workflows/build.yml/badge.svg)](https://github.com/Gartenschlaeger/strcli/actions/workflows/build.yml)
+
 CLI tool `str` performs common string operations in an easy way.
 
 _Example:_
