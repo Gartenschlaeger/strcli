@@ -45,10 +45,10 @@ jobs:
                   zip -j dist/windows-amd64-${STR_VERSION}.zip dist/windows-amd64/**
 
             - name: Conventional Changelog Action
-              id: changelog
               uses: TriPSs/conventional-changelog-action@v3
+              id: changelog
               with:
-                  github-token: ${{ secrets.github_token }
+                  github-token: ${{ secrets.github_token }}
                   output-file: 'false'
 
             - name: Create release
