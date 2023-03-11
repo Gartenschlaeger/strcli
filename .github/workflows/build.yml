@@ -42,6 +42,12 @@ jobs:
                   GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/str.exe
                   zip -j dist/windows-amd64-${STR_VERSION}.zip dist/windows-amd64/**
 
+            - name: Directory output
+              run: |
+                  pwd
+                  ls -la
+                  ls -laR dist
+
             - name: Create release
               uses: actions/create-release@v1
               id: create_release
@@ -53,7 +59,7 @@ jobs:
                   draft: false
                   prerelease: false
                   body: |
-                      TODO
+                      TODO: changes
 
             - name: Upload macOS AMD64 artifact
               uses: actions/upload-release-asset@v1
