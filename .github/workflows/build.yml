@@ -2,8 +2,8 @@ name: Build binaries and create releases
 
 on:
     push:
-        tags:
-            - '*'
+        branches:
+            - main
 
 jobs:
     build:
@@ -16,32 +16,29 @@ jobs:
               with:
                   go-version: 1.20.2
             - name: Build binaries
-              run: ./build.sh
-            - name: Create release
-              id: create_release
-              uses: actions/create-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  export VERSION=$(grep -o -E '([0-9]+\.){2}[0-9]+' main.go)
+
+                  echo "Building for macOS"
+                  GOOS=darwin GOARCH=amd64 go build -o dist/darwin-amd64/str
+                  zip -j dist/darwin-amd64.zip dist/darwin-amd64/**
+
+                  echo "Building for Linux"
+                  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/str
+                  zip -j dist/linux-amd64.zip dist/linux-amd64/**
+
+                  echo "Building for Windows"
+                  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/str.exe
+                  zip -j dist/windows-amd64.zip dist/windows-amd64/**
+            - name: Create release and tag
+              uses: softprops/action-gh-release@v1
               with:
-                  tag_name: ${{ github.ref }}
-                  release_name: Release ${{ github.ref }}
-                  body: |
-                      Changes in this Release:
-                      $(git log --pretty=format:"%h %s (%an)" ${GITHUB_REF#refs/*/HEAD}..HEAD)
+                  files:
+                      - dist/*.zip
+                  tag_name: ${{ env.VERSION }}
+                  name: Release ${{ env.VERSION }}
+                  body: Auto-generated release for version ${{ env.VERSION }}
                   draft: false
                   prerelease: false
-            - name: Upload binaries
-              uses: actions/upload-release-asset@v1
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: |
-                      dist/linux-amd64.zip
-                      dist/darwin-amd64
-                      dist/windows-amd64.zip
-                  asset_name: |
-                      linux-amd64.zip
-                      darwin-amd64.zip
-                      windows-amd64.zip
-                  asset_content_type: application/octet-stream
