@@ -21,7 +21,6 @@ jobs:
               run: |
                   export STR_VERSION=$(grep -o -E '([0-9]+\.){2}[0-9]+' main.go)
                   echo "STR_VERSION=$STR_VERSION" >> $GITHUB_ENV
-
                   echo "VERSION: $STR_VERSION"
 
             - name: Build artifacts
@@ -46,9 +45,9 @@ jobs:
               uses: actions/create-release@v1
               id: create_release
               env:
-                  GITHUB_TOKEN: ${{ github.token }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  release_name: ${{ env.STR_VERSION }}
+                  release_name: Release ${{ env.STR_VERSION }}
                   tag_name: ${{ env.STR_VERSION }}
                   draft: false
                   prerelease: false
