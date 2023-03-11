@@ -1,7 +1,9 @@
 name: Build
 
-on: push
-# TODO: on new tag
+on:
+    push:
+        branches:
+            - main
 
 jobs:
     build:
@@ -42,6 +44,13 @@ jobs:
                   GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/str.exe
                   zip -j dist/windows-amd64-${STR_VERSION}.zip dist/windows-amd64/**
 
+            - name: Conventional Changelog Action
+              id: changelog
+              uses: TriPSs/conventional-changelog-action@v3
+              with:
+                  github-token: ${{ secrets.github_token }
+                  output-file: 'false'
+
             - name: Create release
               uses: actions/create-release@v1
               id: create_release
@@ -49,11 +58,10 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   release_name: Release ${{ env.STR_VERSION }}
-                  tag_name: ${{ env.STR_VERSION }}
+                  tag_name: v${{ env.STR_VERSION }}
                   draft: false
                   prerelease: false
-                  body: |
-                      TODO: changes
+                  body: ${{ steps.changelog.outputs.clean_changelog }
 
             - name: Upload macOS AMD64 artifact
               uses: actions/upload-release-asset@v1
