@@ -1,6 +1,7 @@
 name: Build
 
 on: push
+# TODO: on new tag
 
 jobs:
     build:
