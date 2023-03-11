@@ -48,8 +48,8 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
-                  release_name: ${{ env.VERSION }}
-                  tag_name: ${{ env.VERSION }}
+                  release_name: ${{ env.STR_VERSION }}
+                  tag_name: ${{ env.STR_VERSION }}
                   draft: false
                   prerelease: false
                   body: |
