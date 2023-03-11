@@ -45,11 +45,51 @@ jobs:
               uses: actions/create-release@v1
               id: create_release
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ github.token }}
               with:
                   release_name: Release ${{ env.STR_VERSION }}
                   tag_name: ${{ env.STR_VERSION }}
                   draft: false
                   prerelease: false
                   body: |
-                      Test
+                      TODO
+
+            - name: Upload macOS AMD64 artifact
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: dist/darwin-amd64-${STR_VERSION}.zip
+                  asset_name: darwin-amd64-${STR_VERSION}.zip
+                  asset_content_type: application/zip
+
+            - name: Upload macOS ARM64 artifact
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: dist/darwin-arm64-${STR_VERSION}.zip
+                  asset_name: darwin-arm64-${STR_VERSION}.zip
+                  asset_content_type: application/zip
+
+            - name: Upload Linux AMD64 artifact
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: dist/linux-amd64-${STR_VERSION}.zip
+                  asset_name: linux-amd64-${STR_VERSION}.zip
+                  asset_content_type: application/zip
+
+            - name: Upload Windows AMD64 artifact
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: dist/linux-amd64-${STR_VERSION}.zip
+                  asset_name: linux-amd64-${STR_VERSION}.zip
+                  asset_content_type: application/zip
