@@ -17,25 +17,27 @@ jobs:
             - name: Run tests
               run: go test ./...
 
+            - name: Get Version
+              run: |
+                  export STR_VERSION=$(grep -o -E '([0-9]+\.){2}[0-9]+' main.go)
+                  echo "STR_VERSION=$STR_VERSION" >> $GITHUB_ENV
+
+                  echo "VERSION: $STR_VERSION"
+
             - name: Build artifacts
               run: |
-                  export VERSION=$(grep -o -E '([0-9]+\.){2}[0-9]+' main.go)
-                  echo "VERSION: $VERSION"
-
-                  echo "VERSION=$VERSION" >> $GITHUB_ENV
-
                   echo "Building for macOS amd64"
                   GOOS=darwin GOARCH=amd64 go build -o dist/darwin-amd64/str
-                  zip -j dist/darwin-amd64.zip dist/darwin-amd64/**
+                  zip -j dist/darwin-amd64-${STR_VERSION}.zip dist/darwin-amd64/**
 
                   echo "Building for macOS arm64"
                   GOOS=darwin GOARCH=arm64 go build -o dist/darwin-arm64/str
-                  zip -j dist/darwin-arm64.zip dist/darwin-arm64/**
+                  zip -j dist/darwin-arm64-${STR_VERSION}.zip dist/darwin-arm64/**
 
                   echo "Building for Linux"
                   GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/str
-                  zip -j dist/linux-amd64.zip dist/linux-amd64/**
+                  zip -j dist/linux-amd64-${STR_VERSION}.zip dist/linux-amd64/**
 
                   echo "Building for Windows"
                   GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/str.exe
-                  zip -j dist/windows-amd64.zip dist/windows-amd64/**
+                  zip -j dist/windows-amd64-${STR_VERSION}.zip dist/windows-amd64/**
