@@ -29,14 +29,12 @@ jobs:
 
                   echo "Current Version: $STR_VERSION"
 
-                  git tag --list
-
                   if git tag --list | grep -q "v${STR_VERSION}"; then
                     echo "CREATE_RELEASE=false" >> $GITHUB_ENV
-                    echo "false : v${STR_VERSION}"
+                    echo "Tag v${STR_VERSION} already exists. Skip release part."
                   else
                     echo "CREATE_RELEASE=true" >> $GITHUB_ENV
-                    echo "true : v${STR_VERSION}"
+                    echo "Tag v${STR_VERSION} not found."
                   fi
 
             - name: Build artifacts
