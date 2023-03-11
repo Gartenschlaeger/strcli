@@ -61,7 +61,7 @@ jobs:
                   tag_name: v${{ env.STR_VERSION }}
                   draft: false
                   prerelease: false
-                  body: ${{ steps.changelog.outputs.clean_changelog }
+                  body: ${{ steps.changelog.outputs.clean_changelog }}
 
             - name: Upload macOS AMD64 artifact
               uses: actions/upload-release-asset@v1
