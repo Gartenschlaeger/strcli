@@ -24,9 +24,17 @@ jobs:
               run: |
                   export STR_VERSION=$(grep -o -E '([0-9]+\.){2}[0-9]+' main.go)
                   echo "STR_VERSION=$STR_VERSION" >> $GITHUB_ENV
-                  echo "VERSION: $STR_VERSION"
+
+                  echo "Current Version: $STR_VERSION"
+
+                  if git rev-parse "v$STR_VERSION" >/dev/null 2>&1; then
+                    echo "CREATE_RELEASE=false" >> $GITHUB_ENV
+                  else
+                    echo "CREATE_RELEASE=true" >> $GITHUB_ENV
+                  fi
 
             - name: Build artifacts
+              if: env.CREATE_RELEASE == 'true'
               run: |
                   echo "Building for macOS amd64"
                   GOOS=darwin GOARCH=amd64 go build -o dist/darwin-amd64/str
@@ -44,14 +52,8 @@ jobs:
                   GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/str.exe
                   zip -j dist/windows-amd64-${STR_VERSION}.zip dist/windows-amd64/**
 
-            - name: Conventional Changelog Action
-              uses: TriPSs/conventional-changelog-action@v3
-              id: changelog
-              with:
-                  github-token: ${{ secrets.github_token }}
-                  output-file: 'false'
-
             - name: Create release
+              if: env.CREATE_RELEASE == 'true'
               uses: actions/create-release@v1
               id: create_release
               env:
@@ -61,9 +63,10 @@ jobs:
                   tag_name: v${{ env.STR_VERSION }}
                   draft: false
                   prerelease: false
-                  body: ${{ steps.changelog.outputs.clean_changelog }}
+                  body: ''
 
             - name: Upload macOS AMD64 artifact
+              if: env.CREATE_RELEASE == 'true'
               uses: actions/upload-release-asset@v1
               env:
                   GITHUB_TOKEN: ${{ github.token }}
@@ -74,6 +77,7 @@ jobs:
                   asset_content_type: application/zip
 
             - name: Upload macOS ARM64 artifact
+              if: env.CREATE_RELEASE == 'true'
               uses: actions/upload-release-asset@v1
               env:
                   GITHUB_TOKEN: ${{ github.token }}
@@ -84,6 +88,7 @@ jobs:
                   asset_content_type: application/zip
 
             - name: Upload Linux AMD64 artifact
+              if: env.CREATE_RELEASE == 'true'
               uses: actions/upload-release-asset@v1
               env:
                   GITHUB_TOKEN: ${{ github.token }}
@@ -94,6 +99,7 @@ jobs:
                   asset_content_type: application/zip
 
             - name: Upload Windows AMD64 artifact
+              if: env.CREATE_RELEASE == 'true'
               uses: actions/upload-release-asset@v1
               env:
                   GITHUB_TOKEN: ${{ github.token }}
