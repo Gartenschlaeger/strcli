@@ -27,7 +27,7 @@ jobs:
                   export STR_VERSION=$(grep -o -E '([0-9]+\.){2}[0-9]+' main.go)
                   echo "STR_VERSION=$STR_VERSION" >> $GITHUB_ENV
 
-                  echo "Current Version: $STR_VERSION"
+                  echo "Tag version: v$STR_VERSION"
 
                   if git tag --list | grep -q "v${STR_VERSION}"; then
                     echo "CREATE_RELEASE=false" >> $GITHUB_ENV
