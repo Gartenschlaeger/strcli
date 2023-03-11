@@ -41,3 +41,16 @@ jobs:
                   echo "Building for Windows"
                   GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/str.exe
                   zip -j dist/windows-amd64-${STR_VERSION}.zip dist/windows-amd64/**
+
+            - name: Create release
+              uses: actions/create-release@v1
+              id: create_release
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  release_name: ${{ env.VERSION }}
+                  tag_name: ${{ env.VERSION }}
+                  draft: false
+                  prerelease: false
+                  body: |
+                      Test
