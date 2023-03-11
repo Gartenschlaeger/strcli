@@ -60,7 +60,7 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: dist/darwin-amd64-${STR_VERSION}.zip
+                  asset_path: ./dist/darwin-amd64-${STR_VERSION}.zip
                   asset_name: darwin-amd64-${STR_VERSION}.zip
                   asset_content_type: application/zip
 
@@ -70,7 +70,7 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: dist/darwin-arm64-${STR_VERSION}.zip
+                  asset_path: ./dist/darwin-arm64-${STR_VERSION}.zip
                   asset_name: darwin-arm64-${STR_VERSION}.zip
                   asset_content_type: application/zip
 
@@ -80,7 +80,7 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: dist/linux-amd64-${STR_VERSION}.zip
+                  asset_path: ./dist/linux-amd64-${STR_VERSION}.zip
                   asset_name: linux-amd64-${STR_VERSION}.zip
                   asset_content_type: application/zip
 
@@ -90,6 +90,6 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: dist/linux-amd64-${STR_VERSION}.zip
+                  asset_path: ./dist/linux-amd64-${STR_VERSION}.zip
                   asset_name: linux-amd64-${STR_VERSION}.zip
                   asset_content_type: application/zip
