@@ -27,10 +27,12 @@ jobs:
 
                   echo "Current Version: $STR_VERSION"
 
-                  if git rev-parse "v$STR_VERSION" >/dev/null 2>&1; then
+                  if git rev-parse "v${STR_VERSION}" >/dev/null 2>&1; then
                     echo "CREATE_RELEASE=false" >> $GITHUB_ENV
+                    echo "false : v${STR_VERSION}"
                   else
                     echo "CREATE_RELEASE=true" >> $GITHUB_ENV
+                    echo "true : v${STR_VERSION}"
                   fi
 
             - name: Build artifacts
